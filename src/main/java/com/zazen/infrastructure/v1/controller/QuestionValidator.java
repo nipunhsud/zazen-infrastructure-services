@@ -3,7 +3,7 @@ package com.zazen.infrastructure.v1.controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.zazen.infrastructure.v1.service.QuestionRequest;
+import com.zazen.infrastructure.v1.vo.QuestionRequest;
 
 public class QuestionValidator implements Validator {
 

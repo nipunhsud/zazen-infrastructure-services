@@ -1,4 +1,4 @@
-package com.zazen.infrastructure.v1.service;
+package com.zazen.infrastructure.v1.vo;
 
 import javax.validation.constraints.NotNull;
 

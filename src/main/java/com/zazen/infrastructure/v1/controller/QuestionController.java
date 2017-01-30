@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zazen.infrastructure.v1.service.QuestionRequest;
 import com.zazen.infrastructure.v1.service.QuestionService;
+import com.zazen.infrastructure.v1.vo.QuestionRequest;
 
 
 
