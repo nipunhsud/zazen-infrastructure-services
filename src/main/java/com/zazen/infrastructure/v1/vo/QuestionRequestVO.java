@@ -4,21 +4,21 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class QuestionRequest {
+public class QuestionRequestVO {
 	
-	@JsonProperty("Question")
+	@JsonProperty("question")
 	@NotNull
 	private String question;
 	
-	@JsonProperty("Latitude")
+	@JsonProperty("latitude")
 	@NotNull
 	private String locationLatitue;
 	
-	@JsonProperty("Longitude")
+	@JsonProperty("longitude")
 	@NotNull
 	private String locationLongitute;
 	
-	@JsonProperty("DeviceId")
+	@JsonProperty("deviceId")
 	@NotNull
 	private String deviceId;
 	
@@ -46,12 +46,12 @@ public class QuestionRequest {
 		this.questionTag = questionTag;
 	}
 
-	@JsonProperty("TimeStamp")
+	@JsonProperty("timeStamp")
 	@NotNull
 	private String timeStamp;
 	
 	
-	@JsonProperty("Tag")
+	@JsonProperty("tag")
 	private String questionTag;
 
 	public String getQuestion() {

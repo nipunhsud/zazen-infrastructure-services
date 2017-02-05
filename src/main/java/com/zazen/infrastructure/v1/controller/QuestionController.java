@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zazen.infrastructure.v1.service.QuestionService;
-import com.zazen.infrastructure.v1.vo.QuestionRequest;
+import com.zazen.infrastructure.v1.vo.QuestionRequestVO;
 
 
 
@@ -30,7 +30,7 @@ public class QuestionController {
 	private QuestionService questionService;
 	
 	@RequestMapping(value = "/question", method = RequestMethod.POST)
-	public ResponseEntity<JsonNode> postQuestion( @RequestBody QuestionRequest questionRequest) throws Exception{
+	public ResponseEntity<JsonNode> postQuestion( @RequestBody QuestionRequestVO questionRequest) throws Exception{
 		JsonNode jsonNode = null;
 		jsonNode = questionService.addQuestion(questionRequest);
 		return new ResponseEntity<JsonNode>(jsonNode, HttpStatus.OK);
