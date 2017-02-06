@@ -2,18 +2,40 @@ package com.zazen.infrastructure.v1.pojos;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Question {
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	
 	private String query;
 	
-	private long ladititude;
+	private long latitude;
 	
-	private long logitude;
+	private long longitude;
 	
 	private Date createdDate;
-
+	
+	private Date lastModified;
+	
+	private Question(){}
+	
+	public Question(String query, long latitude, long longitude, Date createdDate, Date lastModified){
+		
+		this.query = query;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.createdDate = createdDate;
+		this.lastModified = lastModified;
+		
+	}
+	
 	public long getId() {
 		return id;
 	}
@@ -31,19 +53,19 @@ public class Question {
 	}
 
 	public long getLadititude() {
-		return ladititude;
+		return latitude;
 	}
 
-	public void setLadititude(long ladititude) {
-		this.ladititude = ladititude;
+	public void setLadititude(long latitude) {
+		this.latitude = latitude;
 	}
 
 	public long getLogitude() {
-		return logitude;
+		return latitude;
 	}
 
-	public void setLogitude(long logitude) {
-		this.logitude = logitude;
+	public void setLogitude(long longitude) {
+		this.longitude = longitude;
 	}
 
 	public Date getCreatedDate() {
@@ -52,6 +74,30 @@ public class Question {
 
 	public  void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public long getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(long latitude) {
+		this.latitude = latitude;
+	}
+
+	public long getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(long longitude) {
+		this.longitude = longitude;
+	}
+
+	public Date getLastModified() {
+		return lastModified;
+	}
+
+	public void setLastModified(Date lastModified) {
+		this.lastModified = lastModified;
 	}
 	
 }

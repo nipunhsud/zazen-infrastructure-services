@@ -2,8 +2,16 @@ package com.zazen.infrastructure.v1.pojos;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class User {
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	
 	private String username;
@@ -19,7 +27,19 @@ public class User {
 	private String firstName;
 	
 	private String lastName;
-
+	
+	private User() {}
+	
+	public User(String username, String password, String email, Date createdDate, Date lastModified, String firstName, String lastName) {
+		this.username = username;
+		this.password = password;
+		this.createdDate = createdDate;
+		this.lastModified = lastModified;
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+	
 	public long getId() {
 		return id;
 	}

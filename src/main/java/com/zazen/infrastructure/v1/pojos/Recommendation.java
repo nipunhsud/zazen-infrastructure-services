@@ -2,8 +2,16 @@ package com.zazen.infrastructure.v1.pojos;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Recommendation {
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	
 	private String description;
@@ -15,7 +23,19 @@ public class Recommendation {
 	private Date lastModfiedDate;
 	
 	private int views;
-
+	
+	private Recommendation(){}
+	
+	private Recommendation(String description, int upvoteCounter, Date createdDate, Date lastModifiedDate, int views) {
+		
+		this.description = description;
+		this.upvoteCounter = upvoteCounter;
+		this.createdDate = createdDate;
+		this.lastModfiedDate = lastModifiedDate;
+		this.views = views;
+		
+	}
+	
 	public long getId() {
 		return id;
 	}
