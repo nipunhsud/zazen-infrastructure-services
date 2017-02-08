@@ -3,6 +3,7 @@ package com.zazen.infrastructure.v1.vo;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.zazen.infrastructure.v1.pojos.Answer;
 
 public class AnswerRequestVO {
 	
@@ -30,6 +31,11 @@ public class AnswerRequestVO {
 		this.question = question;
 	}
 	
-	
+//	public Answer copyTo(AnswerRequestVO answerRequest){
+//		Answer answer = new Answer();
+//		answer.setCreatedDate(answerRequest.ge);
+//		return null;
+//	}
+//	
 	
 }
