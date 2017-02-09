@@ -24,6 +24,7 @@ import com.zazen.infrastructure.v1.vo.QuestionRequestVO;
 
 
 @RestController
+@RequestMapping("questions")
 public class QuestionController {
 
 	Logger log= LoggerFactory.getLogger(QuestionController.class);
@@ -37,19 +38,20 @@ public class QuestionController {
 	@Autowired
 	private QuestionRepository  questionRespository;
 	
-	@RequestMapping(value = "/question", method = RequestMethod.POST)
-	public ResponseEntity<JsonNode> postQuestion( @RequestBody QuestionRequestVO questionRequest) throws Exception{
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	public ResponseEntity<JsonNode> postQuestion( @RequestBody Question question) throws Exception{
 		JsonNode jsonNode = null;
-		jsonNode = questionService.addQuestion(questionRequest);
+		//jsonNode = questionService.addQuestion(questionRequest);
+		questionRespository.save(question);
 		return new ResponseEntity<JsonNode>(jsonNode, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/questions/{id}" , method = RequestMethod.GET)
+	@RequestMapping(value="/{id}" , method = RequestMethod.GET)
 	public void getQuestionById( @PathVariable("questionId") String questionId){
 		
 	}
 	
-	@RequestMapping(value="/questions" , method = RequestMethod.GET)
+	@RequestMapping(value="/" , method = RequestMethod.GET)
 	public List<Question> getQuestions(){
 		
 		List<Question> allQuestions = (List<Question>) questionRespository.findAll();
@@ -57,7 +59,7 @@ public class QuestionController {
 		
 	}
 	
-	@RequestMapping(value="/questions/{id}" , method = RequestMethod.DELETE)
+	@RequestMapping(value="/{id}" , method = RequestMethod.DELETE)
 	public void deleteQuestion(@RequestParam long questionId){
 		
 		questionRespository.delete(questionId);
