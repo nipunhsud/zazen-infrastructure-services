@@ -19,7 +19,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zazen.infrastructure.v1.pojos.Question;
 import com.zazen.infrastructure.v1.repository.QuestionRepository;
 import com.zazen.infrastructure.v1.service.QuestionService;
-import com.zazen.infrastructure.v1.vo.QuestionRequestVO;
 
 
 
@@ -38,7 +37,7 @@ public class QuestionController {
 	@Autowired
 	private QuestionRepository  questionRespository;
 	
-	@RequestMapping(value = "", method = RequestMethod.POST)
+	@RequestMapping(value = "/question", method = RequestMethod.POST)
 	public ResponseEntity<JsonNode> postQuestion( @RequestBody Question question) throws Exception{
 		JsonNode jsonNode = null;
 		//jsonNode = questionService.addQuestion(questionRequest);

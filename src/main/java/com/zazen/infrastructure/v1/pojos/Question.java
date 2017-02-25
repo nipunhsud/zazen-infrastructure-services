@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+
 @Entity
 public class Question {
 	
@@ -16,6 +17,8 @@ public class Question {
 	
 	private String query;
 	
+	private String locationName;
+	
 	private long latitude;
 	
 	private long longitude;
@@ -24,15 +27,18 @@ public class Question {
 	
 	private Date lastModified;
 	
+	private User user;
+	
 	private Question(){}
 	
-	public Question(String query, long latitude, long longitude, Date createdDate, Date lastModified){
+	public Question(String query, long latitude, long longitude, Date createdDate, Date lastModified, User user){
 		
 		this.query = query;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.createdDate = createdDate;
 		this.lastModified = lastModified;
+		this.user = user;
 		
 	}
 	
@@ -52,6 +58,14 @@ public class Question {
 		this.query = query;
 	}
 
+	public String getLocationName() {
+		return locationName;
+	}
+
+	public void setLocationName(String locationName) {
+		this.locationName = locationName;
+	}
+	
 	public long getLadititude() {
 		return latitude;
 	}
@@ -99,5 +113,14 @@ public class Question {
 	public void setLastModified(Date lastModified) {
 		this.lastModified = lastModified;
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 	
 }

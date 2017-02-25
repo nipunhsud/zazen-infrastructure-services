@@ -1,4 +1,4 @@
-package com.zazen.infrastructure.v1.repository;
+ package com.zazen.infrastructure.v1.repository;
 
 import java.util.List;
 
