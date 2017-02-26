@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zazen.infrastructure.v1.pojos.Answer;
 import com.zazen.infrastructure.v1.repository.AnswerRepository;
 import com.zazen.infrastructure.v1.service.AnswerService;
@@ -26,11 +25,8 @@ public class AnswerController {
 	
 Logger log= LoggerFactory.getLogger(AnswerController.class);
 	
-	@Autowired
-	private ObjectMapper objectMapper;
-	
-	@Autowired
-	private AnswerRepository  answerRespository;
+//	@Autowired
+//	private AnswerRepository  answerRespository;
 	
 	@Autowired
 	private AnswerService answerService;

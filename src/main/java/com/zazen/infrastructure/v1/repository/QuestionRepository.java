@@ -3,10 +3,11 @@
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Component;
 
 import com.zazen.infrastructure.v1.pojos.Question;
 
-public interface QuestionRepository extends CrudRepository<Question, Long> {
+@Component
+public abstract class QuestionRepository implements CrudRepository<Question, Long> {
 	
-	List<Question> findByLatitude(long latitude);
 }

@@ -15,9 +15,6 @@ public class QuestionService {
 
 	Logger log= LoggerFactory.getLogger(QuestionService.class);
 	
-	@Autowired
-	private ObjectMapper objectMapper;
-	
 	public JsonNode addQuestion(QuestionRequestVO questionRequest) throws Exception{
 		JsonNode jsonNode=null;
 		
