@@ -14,11 +14,11 @@ public class Answer {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
+	//#TODO nexted structure
+//	@JoinColumn(nullable = false)
+//	private Question question;
 	
-	@JoinColumn(nullable = false)
-	private Question question;
-	
-	private Recommendation recommendation;
+//	private Recommendation recommendation;
 	
 	private long fileId;
 	
@@ -30,21 +30,21 @@ public class Answer {
 		this.id = id;
 	}
 	
-	public Question getQuestion() {
-		return question;
-	}
+//	public Question getQuestion() {
+//		return question;
+//	}
+//
+//	public void setQuestion(Question question) {
+//		this.question = question;
+//	}
 
-	public void setQuestion(Question question) {
-		this.question = question;
-	}
-
-	public Recommendation getRecommendation() {
-		return recommendation;
-	}
-
-	public void setRecommendation(Recommendation recommendation) {
-		this.recommendation = recommendation;
-	}
+//	public Recommendation getRecommendation() {
+//		return recommendation;
+//	}
+//
+//	public void setRecommendation(Recommendation recommendation) {
+//		this.recommendation = recommendation;
+//	}
 
 	public long getFileId() {
 		return fileId;

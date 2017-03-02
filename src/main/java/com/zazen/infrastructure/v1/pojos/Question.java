@@ -27,7 +27,7 @@ public class Question {
 	
 	private Date lastModified;
 	
-	private User user;
+	//private User user;
 	
 	private Question(){}
 	
@@ -114,13 +114,13 @@ public class Question {
 		this.lastModified = lastModified;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
+//	public User getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
 	
 	
 }

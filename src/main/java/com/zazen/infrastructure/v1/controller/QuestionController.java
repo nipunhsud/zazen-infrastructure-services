@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -31,15 +32,16 @@ public class QuestionController {
 	@Autowired
 	private QuestionService questionService;
 	
-//	@Autowired
-//	private QuestionRepository  questionRespository;
+	@Autowired
+	private QuestionRepository  questionRespository;
 	
 	@RequestMapping(value = "/question", method = RequestMethod.POST)
-	public ResponseEntity<JsonNode> postQuestion( @RequestBody Question question) throws Exception{
-		JsonNode jsonNode = null;
+	public @ResponseBody Question postQuestion( @RequestBody Question question) throws Exception{
+		//JsonNode jsonNode = null;
 		//jsonNode = questionService.addQuestion(questionRequest);
-		//questionRespository.save(question);
-		return new ResponseEntity<JsonNode>(jsonNode, HttpStatus.OK);
+		questionRespository.save(question);
+		log.debug("Saved");
+		return question;
 	}
 	
 	@RequestMapping(value="/{id}" , method = RequestMethod.GET)

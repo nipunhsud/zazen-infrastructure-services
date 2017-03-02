@@ -26,8 +26,8 @@
     </dependency>
     <dependency>
 		<groupId>javax.servlet</groupId>
-		<artifactId>servlet-api</artifactId>
-		<version>3.0-alpha-1</version>
+		<artifactId>javax.servlet-api</artifactId>
+		<version>3.0.1</version>
 	</dependency>  
 	<dependency>
 		<groupId>org.apache.logging.log4j</groupId>
@@ -148,6 +148,12 @@
         <artifactId>spring-data-jpa</artifactId>
         <version>1.11.0.RELEASE</version>
     </dependency>
+    <dependency>
+		<groupId>org.apache.geronimo.specs</groupId>
+		<artifactId>geronimo-servlet_3.0_spec</artifactId>
+		<version>1.0</version>
+		<scope>provided</scope>
+	</dependency>
   </dependencies>
 
   <build>

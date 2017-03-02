@@ -25,8 +25,8 @@ public class AnswerController {
 	
 Logger log= LoggerFactory.getLogger(AnswerController.class);
 	
-//	@Autowired
-//	private AnswerRepository  answerRespository;
+	@Autowired
+	private AnswerRepository  answerRespository;
 	
 	@Autowired
 	private AnswerService answerService;
