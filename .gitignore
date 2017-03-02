@@ -48,5 +48,6 @@ Temporary Items
 /target/
 *.class
 *.properties
+.class
 .project
 
