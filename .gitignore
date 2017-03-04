@@ -50,4 +50,6 @@ Temporary Items
 *.properties
 .class
 .project
+.component
+.classpath
 
