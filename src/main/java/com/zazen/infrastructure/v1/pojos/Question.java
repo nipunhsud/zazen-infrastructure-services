@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 
 @Entity
@@ -27,7 +29,9 @@ public class Question {
 	
 	private Date lastModified;
 	
-	//private User user;
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private User user;
 	
 	private Question(){}
 	

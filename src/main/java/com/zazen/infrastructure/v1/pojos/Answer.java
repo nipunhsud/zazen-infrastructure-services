@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Answer {
@@ -15,10 +16,14 @@ public class Answer {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	//#TODO nexted structure
-//	@JoinColumn(nullable = false)
-//	private Question question;
 	
-//	private Recommendation recommendation;
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private Question question;
+	
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private Recommendation recommendation;
 	
 	private long fileId;
 	
@@ -30,21 +35,25 @@ public class Answer {
 		this.id = id;
 	}
 	
-//	public Question getQuestion() {
-//		return question;
-//	}
-//
-//	public void setQuestion(Question question) {
-//		this.question = question;
-//	}
+	
+	public Question getQuestion() {
+		return question;
+	}
+	
+	
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
 
-//	public Recommendation getRecommendation() {
-//		return recommendation;
-//	}
-//
-//	public void setRecommendation(Recommendation recommendation) {
-//		this.recommendation = recommendation;
-//	}
+	
+	public Recommendation getRecommendation() {
+		return recommendation;
+	}
+
+	
+	public void setRecommendation(Recommendation recommendation) {
+		this.recommendation = recommendation;
+	}
 
 	public long getFileId() {
 		return fileId;
