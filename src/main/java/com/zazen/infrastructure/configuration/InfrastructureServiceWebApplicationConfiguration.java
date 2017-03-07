@@ -6,14 +6,16 @@ import javax.naming.NamingException;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -25,7 +27,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zazen.infrastructure.v1.repository.AnswerRepository;
 
 @Configuration
 @EnableWebMvc
@@ -95,5 +96,34 @@ public class InfrastructureServiceWebApplicationConfiguration extends WebMvcConf
 		objectMapper.setSerializationInclusion(Include.NON_NULL);
 		return objectMapper;
 	}
+	
+	@Bean
+	public LocalSessionFactoryBean sessionFactory() {
+		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+		sessionFactory.setDataSource(dataSource());
+		sessionFactory.setPackagesToScan(
+				new String[] { "com.zazen.infrastructure.v1.pojos" });
+		sessionFactory.setHibernateProperties(jpaProperties());
+
+		return sessionFactory;
+	}
+	 
+	@Bean
+	@Autowired
+	public HibernateTransactionManager transactionManager(
+			SessionFactory sessionFactory) {
+
+		HibernateTransactionManager txManager
+		= new HibernateTransactionManager();
+		txManager.setSessionFactory(sessionFactory);
+
+		return txManager;
+	}
+//	@Bean
+//	@Autowired
+//	public Session sessionFactory(){
+//		Session session = HibernateUtil.getSessionFactory();
+//		return session;
+//	}
 	
 }

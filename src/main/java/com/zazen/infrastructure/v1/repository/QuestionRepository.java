@@ -1,18 +1,27 @@
  package com.zazen.infrastructure.v1.repository;
 
-import java.util.List;
-
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Component;
 
 import com.zazen.infrastructure.v1.pojos.Question;
 
 @Component
-public class QuestionRepository implements CrudRepository<Question, Long> {
-
+public class QuestionRepository extends HibernateDaoSupport implements  CrudRepository<Question, Long> {
+	
+	private SessionFactory sessionFactory;
+	
+	public QuestionRepository(SessionFactory sessionfactory){
+	    setSessionFactory(sessionfactory);
+	}
+	
 	public <S extends Question> S save(S entity) {
-		// TODO Auto-generated method stub
-		return null;
+		//sessionFactory.getCurrentSession().save(entity);
+		super.getSessionFactory().openSession().save(entity);
+		//getHibernateTemplate().save(entity);
+		return entity;
 	}
 
 	public <S extends Question> Iterable<S> save(Iterable<S> entities) {

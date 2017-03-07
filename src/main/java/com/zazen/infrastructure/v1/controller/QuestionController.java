@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zazen.infrastructure.v1.pojos.Question;
 import com.zazen.infrastructure.v1.repository.QuestionRepository;
 import com.zazen.infrastructure.v1.service.QuestionService;
@@ -35,13 +32,12 @@ public class QuestionController {
 	@Autowired
 	private QuestionRepository  questionRespository;
 	
-	@RequestMapping(value = "/question", method = RequestMethod.POST)
-	public @ResponseBody Question postQuestion( @RequestBody Question question) throws Exception{
-		//JsonNode jsonNode = null;
-		//jsonNode = questionService.addQuestion(questionRequest);
+	@RequestMapping(value = "/question", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<Question>  postQuestion( @RequestBody Question question) throws Exception{
+		log.debug(question.toString());
 		questionRespository.save(question);
 		log.debug("Saved");
-		return question;
+		return new ResponseEntity<Question>(HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/{id}" , method = RequestMethod.GET)

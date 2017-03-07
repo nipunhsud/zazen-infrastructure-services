@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class Question {
@@ -18,31 +20,33 @@ public class Question {
 	private long id;
 	
 	private String query;
+//	
+//	private String query;
 	
 	private String locationName;
 	
-	private long latitude;
+	private Long latitude;
 	
 	private long longitude;
 	
 	private Date createdDate;
 	
-	private Date lastModified;
+//	private Date lastModified;
+//	
+//	@ManyToOne
+//	@JoinColumn(nullable = false)
+//	@JsonIgnore
+//	private User user;
+//	
+	protected Question(){}
 	
-	@ManyToOne
-	@JoinColumn(nullable = false)
-	private User user;
-	
-	private Question(){}
-	
-	public Question(String query, long latitude, long longitude, Date createdDate, Date lastModified, User user){
+	public Question(String query, long latitude, long longitude, Date createdDate){//, , Date lastModified){
 		
 		this.query = query;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.createdDate = createdDate;
-		this.lastModified = lastModified;
-		this.user = user;
+		//this.lastModified = lastModified;
 		
 	}
 	
@@ -53,15 +57,15 @@ public class Question {
 	public void setId(long id) {
 		this.id = id;
 	}
-
-	public String getQuery() {
-		return query;
-	}
-
-	public void setQuery(String query) {
-		this.query = query;
-	}
-
+//
+//	public String getQuery() {
+//		return query;
+//	}
+//
+//	public void setQuery(String query) {
+//		this.query = query;
+//	}
+//
 	public String getLocationName() {
 		return locationName;
 	}
@@ -70,11 +74,11 @@ public class Question {
 		this.locationName = locationName;
 	}
 	
-	public long getLadititude() {
+	public Long getLadititude() {
 		return latitude;
 	}
 
-	public void setLadititude(long latitude) {
+	public void setLadititude(Long latitude) {
 		this.latitude = latitude;
 	}
 
@@ -93,31 +97,31 @@ public class Question {
 	public  void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
-
-	public long getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(long latitude) {
-		this.latitude = latitude;
-	}
-
-	public long getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(long longitude) {
-		this.longitude = longitude;
-	}
-
-	public Date getLastModified() {
-		return lastModified;
-	}
-
-	public void setLastModified(Date lastModified) {
-		this.lastModified = lastModified;
-	}
-
+//
+//	public long getLatitude() {
+//		return latitude;
+//	}
+//
+//	public void setLatitude(long latitude) {
+//		this.latitude = latitude;
+//	}
+//
+//	public long getLongitude() {
+//		return longitude;
+//	}
+//
+//	public void setLongitude(long longitude) {
+//		this.longitude = longitude;
+//	}
+//
+//	public Date getLastModified() {
+//		return lastModified;
+//	}
+//
+//	public void setLastModified(Date lastModified) {
+//		this.lastModified = lastModified;
+//	}
+//
 //	public User getUser() {
 //		return user;
 //	}
@@ -125,6 +129,14 @@ public class Question {
 //	public void setUser(User user) {
 //		this.user = user;
 //	}
-	
-	
+//	
+//	
+
+	public String getQuery() {
+		return query;
+	}
+
+	public void setQuery(String query) {
+		this.query = query;
+	}
 }
