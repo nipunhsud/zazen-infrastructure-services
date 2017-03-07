@@ -1,25 +1,31 @@
  package com.zazen.infrastructure.v1.repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.zazen.infrastructure.v1.pojos.Question;
 
 @Component
-public class QuestionRepository extends HibernateDaoSupport implements  CrudRepository<Question, Long> {
+public class QuestionRepository {//extends HibernateDaoSupport implements  CrudRepository<Question, Long> {
 	
+	@Autowired
 	private SessionFactory sessionFactory;
 	
-	public QuestionRepository(SessionFactory sessionfactory){
-	    setSessionFactory(sessionfactory);
-	}
+	private EntityManager em;
 	
-	public <S extends Question> S save(S entity) {
-		//sessionFactory.getCurrentSession().save(entity);
-		super.getSessionFactory().openSession().save(entity);
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+	
+    @Transactional
+	public Question save(Question entity) {
+		sessionFactory.getCurrentSession().save(entity);
+    	//em.persist(entity);
 		//getHibernateTemplate().save(entity);
 		return entity;
 	}

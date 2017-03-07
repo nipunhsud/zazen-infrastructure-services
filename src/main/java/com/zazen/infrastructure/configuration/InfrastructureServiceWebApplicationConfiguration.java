@@ -49,15 +49,15 @@ public class InfrastructureServiceWebApplicationConfiguration extends WebMvcConf
         return dataSource;
     }
  
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws NamingException {
-        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-        factoryBean.setDataSource(dataSource());
-        factoryBean.setPackagesToScan(new String[] { "com.zazen.infrastructure.v1.pojos" });
-        factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
-        factoryBean.setJpaProperties(jpaProperties());
-        return factoryBean;
-    }
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws NamingException {
+//        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+//        factoryBean.setDataSource(dataSource());
+//        factoryBean.setPackagesToScan(new String[] { "com.zazen.infrastructure.v1.pojos" });
+//        factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
+//        factoryBean.setJpaProperties(jpaProperties());
+//        return factoryBean;
+//    }
  
     /*
      * Provider specific adapter.
@@ -71,7 +71,7 @@ public class InfrastructureServiceWebApplicationConfiguration extends WebMvcConf
     /*
      * Here you can specify any provider specific properties.
      */
-    private Properties jpaProperties() {
+    private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
         properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
@@ -82,9 +82,9 @@ public class InfrastructureServiceWebApplicationConfiguration extends WebMvcConf
  
     @Bean
     @Autowired
-    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
-        JpaTransactionManager txManager = new JpaTransactionManager();
-        txManager.setEntityManagerFactory(emf);
+    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
+        HibernateTransactionManager txManager = new HibernateTransactionManager();
+        txManager.setSessionFactory(sessionFactory);
         return txManager;
     }
 	
@@ -98,32 +98,34 @@ public class InfrastructureServiceWebApplicationConfiguration extends WebMvcConf
 	}
 	
 	@Bean
+	@Autowired
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
 		sessionFactory.setPackagesToScan(
 				new String[] { "com.zazen.infrastructure.v1.pojos" });
-		sessionFactory.setHibernateProperties(jpaProperties());
+		sessionFactory.setHibernateProperties(hibernateProperties());
 
 		return sessionFactory;
 	}
 	 
-	@Bean
-	@Autowired
-	public HibernateTransactionManager transactionManager(
-			SessionFactory sessionFactory) {
-
-		HibernateTransactionManager txManager
-		= new HibernateTransactionManager();
-		txManager.setSessionFactory(sessionFactory);
-
-		return txManager;
-	}
 //	@Bean
 //	@Autowired
-//	public Session sessionFactory(){
-//		Session session = HibernateUtil.getSessionFactory();
-//		return session;
+//	public HibernateTransactionManager transactionManager(
+//			SessionFactory sessionFactory) {
+//
+//		HibernateTransactionManager txManager
+//		= new HibernateTransactionManager();
+//		txManager.setSessionFactory(sessionFactory);
+//
+//		return txManager;
+//	}
+	
+//	@Bean
+//	@Autowired
+//	public SessionFactory sessionFactory(){
+//		LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
+//		return localSessionFactoryBean.getObject();
 //	}
 	
 }
