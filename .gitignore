@@ -45,11 +45,11 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
-/target/
+target/
 *.class
 *.properties
 .class
 .project
 .component
 .classpath
-
+bin/
