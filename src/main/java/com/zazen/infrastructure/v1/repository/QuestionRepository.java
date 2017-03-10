@@ -1,9 +1,12 @@
  package com.zazen.infrastructure.v1.repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import java.util.List;
 
+import javax.persistence.EntityManager;
+
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.zazen.infrastructure.v1.pojos.Question;
 
 @Component
+@Transactional
 public class QuestionRepository {//extends HibernateDaoSupport implements  CrudRepository<Question, Long> {
 	
 	@Autowired
@@ -22,11 +26,13 @@ public class QuestionRepository {//extends HibernateDaoSupport implements  CrudR
         this.sessionFactory = sessionFactory;
     }
 	
+    private Session getSession(){
+    	return this.sessionFactory.getCurrentSession();
+    }
+    
     @Transactional
 	public Question save(Question entity) {
-		sessionFactory.getCurrentSession().save(entity);
-    	//em.persist(entity);
-		//getHibernateTemplate().save(entity);
+		getSession().save(entity);
 		return entity;
 	}
 
@@ -36,23 +42,30 @@ public class QuestionRepository {//extends HibernateDaoSupport implements  CrudR
 	}
 
 	public Question findOne(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Question question = getSession().get(Question.class, id);
+		
+		return question;
 	}
 
 	public boolean exists(Long id) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public Iterable<Question> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+	@SuppressWarnings("unchecked")
+	public List<Question> findAll() {
+		@SuppressWarnings("rawtypes")
+		Query query = getSession().createQuery("FROM " + Question.class.getName());
+		return query.list();
 	}
 
-	public Iterable<Question> findAll(Iterable<Long> ids) {
-		// TODO Auto-generated method stub
-		return null;
+	@SuppressWarnings("unchecked")
+	public List<Question> findAll(List<Long> ids) {
+		@SuppressWarnings("rawtypes")
+		Query query = getSession().createQuery("FROM " + Question.class.getName()
+				+ " where id IN (:ids)")
+		.setParameterList("ids", ids);
+		return query.list() ;
 	}
 
 	public long count() {

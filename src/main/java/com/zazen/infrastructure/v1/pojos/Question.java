@@ -6,32 +6,33 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 @Entity
 public class Question {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+	private String id;
 	
 	private String query;
-//	
-//	private String query;
 	
 	private String locationName;
 	
 	private Long latitude;
 	
-	private long longitude;
+	private Long longitude;
 	
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd")
 	private Date createdDate;
 	
-//	private Date lastModified;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd")
+	private Date lastModified;
 //	
 //	@ManyToOne
 //	@JoinColumn(nullable = false)
@@ -40,32 +41,25 @@ public class Question {
 //	
 	protected Question(){}
 	
-	public Question(String query, long latitude, long longitude, Date createdDate){//, , Date lastModified){
+	public Question(String query, String locationName, Long latitude, Long longitude, Date createdDate, Date lastModified){//, , Date lastModified){
 		
 		this.query = query;
+		this.locationName = locationName;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.createdDate = createdDate;
-		//this.lastModified = lastModified;
+		this.lastModified = lastModified;
 		
 	}
 	
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
-//
-//	public String getQuery() {
-//		return query;
-//	}
-//
-//	public void setQuery(String query) {
-//		this.query = query;
-//	}
-//
+	
 	public String getLocationName() {
 		return locationName;
 	}
@@ -74,20 +68,12 @@ public class Question {
 		this.locationName = locationName;
 	}
 	
-	public Long getLadititude() {
+	public Long getLatitude() {
 		return latitude;
 	}
 
-	public void setLadititude(Long latitude) {
+	public void setLatitude(Long latitude) {
 		this.latitude = latitude;
-	}
-
-	public long getLogitude() {
-		return latitude;
-	}
-
-	public void setLogitude(long longitude) {
-		this.longitude = longitude;
 	}
 
 	public Date getCreatedDate() {
@@ -97,31 +83,7 @@ public class Question {
 	public  void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
-//
-//	public long getLatitude() {
-//		return latitude;
-//	}
-//
-//	public void setLatitude(long latitude) {
-//		this.latitude = latitude;
-//	}
-//
-//	public long getLongitude() {
-//		return longitude;
-//	}
-//
-//	public void setLongitude(long longitude) {
-//		this.longitude = longitude;
-//	}
-//
-//	public Date getLastModified() {
-//		return lastModified;
-//	}
-//
-//	public void setLastModified(Date lastModified) {
-//		this.lastModified = lastModified;
-//	}
-//
+
 //	public User getUser() {
 //		return user;
 //	}
@@ -138,5 +100,21 @@ public class Question {
 
 	public void setQuery(String query) {
 		this.query = query;
+	}
+
+	public Long getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Long longitude) {
+		this.longitude = longitude;
+	}
+
+	public Date getLastModified() {
+		return lastModified;
+	}
+
+	public void setLastModified(Date lastModified) {
+		this.lastModified = lastModified;
 	}
 }

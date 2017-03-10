@@ -48,17 +48,7 @@ public class InfrastructureServiceWebApplicationConfiguration extends WebMvcConf
         dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
         return dataSource;
     }
- 
-//    @Bean
-//    public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws NamingException {
-//        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-//        factoryBean.setDataSource(dataSource());
-//        factoryBean.setPackagesToScan(new String[] { "com.zazen.infrastructure.v1.pojos" });
-//        factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
-//        factoryBean.setJpaProperties(jpaProperties());
-//        return factoryBean;
-//    }
- 
+    
     /*
      * Provider specific adapter.
      */
@@ -67,6 +57,27 @@ public class InfrastructureServiceWebApplicationConfiguration extends WebMvcConf
         HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
         return hibernateJpaVendorAdapter;
     }
+ 
+    @Bean(name = "entityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws NamingException {
+        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+        factoryBean.setDataSource(dataSource());
+        factoryBean.setPackagesToScan(new String[] { "com.zazen.infrastructure.v1.pojos" });
+        factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
+        //factoryBean.setJpaProperties(jpaProperties());
+        return factoryBean;
+    }
+    
+    @Bean
+    public PlatformTransactionManager transactionManager() throws NamingException {
+        JpaTransactionManager tm = 
+            new JpaTransactionManager();
+            tm.setEntityManagerFactory((EntityManagerFactory) entityManagerFactory());
+            tm.setDataSource(dataSource());
+        return tm;
+    }
+ 
+   
  
     /*
      * Here you can specify any provider specific properties.
