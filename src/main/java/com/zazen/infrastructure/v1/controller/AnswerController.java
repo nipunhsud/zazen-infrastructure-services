@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.zazen.infrastructure.v1.pojos.Answer;
+import com.zazen.infrastructure.v1.pojos.Question;
 import com.zazen.infrastructure.v1.repository.AnswerRepository;
+import com.zazen.infrastructure.v1.repository.QuestionRepository;
 import com.zazen.infrastructure.v1.service.AnswerService;
 import com.zazen.infrastructure.v1.vo.AnswerRequestVO;
 
@@ -29,25 +31,33 @@ Logger log= LoggerFactory.getLogger(AnswerController.class);
 	private AnswerRepository  answerRespository;
 	
 	@Autowired
+	private QuestionRepository questionRepository;
+	
+	@Autowired
 	private AnswerService answerService;
 	
+	@Autowired
+	private Answer answer;
+	
 	@RequestMapping(value = "/answer", method = RequestMethod.POST)
-	public void postQuestion( @RequestBody AnswerRequestVO answerRequest) throws Exception{
-		JsonNode jsonNode = null;
-		Answer answer = null;//answerRequestConverToAnswer(answerRequest);
-		answerService.addAnswer(answer);
-		//return new ResponseEntity<JsonNode>(jsonNode, HttpStatus.OK);
+	public Answer answerPost( @RequestBody AnswerRequestVO answerRequest) throws Exception{
+		
+		Question question = questionRepository.findOne(answerRequest.getQuestion());
+		answer.setQuestion(question);
+		answer.setAnswerRecommendation(answerRequest.getAnswer());
+		Answer savedAnswer = answerRespository.save(answer);
+		return savedAnswer;
 	}
 	
 	@RequestMapping(value="/answers/{id}" , method = RequestMethod.GET)
-	public void getQuestionById( @PathVariable("answerId") String answerId){
-		
+	public Answer getQuestionById( @PathVariable("answerId") String answerId){
+		return answerRespository.findOne(answerId);
 	}
 	
 	@RequestMapping(value="/answers" , method = RequestMethod.GET)
-	public List<Answer> getAnswers(){
+	public List<Answer> getAllAnswers(){
 		
-		List<Answer> allAnswers = (List<Answer>) answerRespository.findAll();
+		List<Answer> allAnswers = answerRespository.findAll();
 		return allAnswers;
 		
 	}

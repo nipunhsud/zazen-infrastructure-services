@@ -13,7 +13,7 @@ public class AnswerRequestVO {
 	
 	@JsonProperty("question")
 	@NotNull
-	private String question;
+	private String questionId;
 
 	public String getAnswer() {
 		return answer;
@@ -24,11 +24,11 @@ public class AnswerRequestVO {
 	}
 
 	public String getQuestion() {
-		return question;
+		return questionId;
 	}
 
-	public void setQuestion(String question) {
-		this.question = question;
+	public void setQuestion(String questionId) {
+		this.questionId = questionId;
 	}
 	
 //	public Answer copyTo(AnswerRequestVO answerRequest){

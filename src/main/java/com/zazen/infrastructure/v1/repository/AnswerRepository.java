@@ -1,18 +1,36 @@
 package com.zazen.infrastructure.v1.repository;
 
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.zazen.infrastructure.v1.pojos.Answer;
 
 @Repository
-public class AnswerRepository implements CrudRepository<Answer, Long>{
+public class AnswerRepository {
+	
+	@Autowired
+	SessionFactory sessionFactory;
+	
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+
+	private Session getSession(){
+		return this.sessionFactory.getCurrentSession();
+	}
 	
 	public AnswerRepository(){}
 
-	public <S extends Answer> S save(S entity) {
-		// TODO Auto-generated method stub
-		return null;
+	public Answer save(Answer entity) {
+		getSession().save(entity);
+		
+		return entity;
 	}
 
 	public <S extends Answer> Iterable<S> save(Iterable<S> entities) {
@@ -20,9 +38,8 @@ public class AnswerRepository implements CrudRepository<Answer, Long>{
 		return null;
 	}
 
-	public Answer findOne(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Answer findOne(String id) {
+		return getSession().get(Answer.class, id);
 	}
 
 	public boolean exists(Long id) {
@@ -30,14 +47,17 @@ public class AnswerRepository implements CrudRepository<Answer, Long>{
 		return false;
 	}
 
-	public Iterable<Answer> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public List<Answer> findAll() {
+		Query query = getSession().createQuery(" FROM "+ Answer.class.getName());
+		
+		return query.list();
 	}
 
-	public Iterable<Answer> findAll(Iterable<Long> ids) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Answer> findAll(List<String> ids) {
+		Query query = getSession().createQuery(" FROM "+ Answer.class.getName() +" where id IN (:ids)")
+				.setParameterList("ids", ids);
+		return query.list();
 	}
 
 	public long count() {

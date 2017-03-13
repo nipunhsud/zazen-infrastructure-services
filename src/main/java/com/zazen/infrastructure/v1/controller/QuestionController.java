@@ -40,7 +40,7 @@ public class QuestionController {
 	
 	@RequestMapping(value="/{id}" , method = RequestMethod.GET)
 	@ResponseBody
-	public Question getQuestionById( @RequestParam(value = "questionId") long questionId){
+	public Question getQuestionById( @RequestParam(value = "questionId") String questionId){
 		Question question = questionRespository.findOne(questionId);
 		System.out.println(question.toString());
 		return question;

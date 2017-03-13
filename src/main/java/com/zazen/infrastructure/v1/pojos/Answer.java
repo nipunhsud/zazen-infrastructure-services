@@ -9,13 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 public class Answer {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;
-	//#TODO nexted structure
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+	private String id;
 	
 	@ManyToOne
 	@JoinColumn(nullable = false)
@@ -25,13 +27,15 @@ public class Answer {
 	@JoinColumn(nullable = false)
 	private Recommendation recommendation;
 	
-	private long fileId;
+	private long  fileId;
 	
-	public long getId() {
+	private String answerRecommendation;
+	
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	
@@ -72,6 +76,14 @@ public class Answer {
 	}
 
 	private Date createdDate;
+
+	public String getAnswerRecommendation() {
+		return answerRecommendation;
+	}
+
+	public void setAnswerRecommendation(String answerRecommendation) {
+		this.answerRecommendation = answerRecommendation;
+	}
 	
 	
 }

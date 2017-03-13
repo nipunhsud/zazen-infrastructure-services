@@ -41,7 +41,7 @@ public class QuestionRepository {//extends HibernateDaoSupport implements  CrudR
 		return null;
 	}
 
-	public Question findOne(Long id) {
+	public Question findOne(String id) {
 
 		Question question = getSession().get(Question.class, id);
 		
@@ -60,7 +60,7 @@ public class QuestionRepository {//extends HibernateDaoSupport implements  CrudR
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Question> findAll(List<Long> ids) {
+	public List<Question> findAll(List<String> ids) {
 		@SuppressWarnings("rawtypes")
 		Query query = getSession().createQuery("FROM " + Question.class.getName()
 				+ " where id IN (:ids)")
