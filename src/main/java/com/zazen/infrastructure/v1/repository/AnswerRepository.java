@@ -10,6 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.zazen.infrastructure.v1.pojos.Answer;
+import com.zazen.infrastructure.v1.pojos.Question;
 
 @Repository
 public class AnswerRepository {
@@ -58,6 +59,15 @@ public class AnswerRepository {
 		Query query = getSession().createQuery(" FROM "+ Answer.class.getName() +" where id IN (:ids)")
 				.setParameterList("ids", ids);
 		return query.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Answer> findAllByQuestion(String questionId) {
+		@SuppressWarnings("rawtypes")
+		Query query = getSession().createQuery("FROM " + Answer.class.getName()
+				+ " where question_id IN (:questionId)")
+		.setParameter("questionId", questionId);
+		return query.list() ;
 	}
 
 	public long count() {

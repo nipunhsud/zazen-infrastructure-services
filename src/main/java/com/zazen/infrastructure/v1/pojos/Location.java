@@ -5,16 +5,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Entity
+@Component
 public class Location {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+	private String id;
 	
-	private long userId;
+	private String userId;
 	
 	private long latitude;
 	
@@ -22,17 +26,25 @@ public class Location {
 	
 	private Location(){}
 	
-	private Location(long userId, long latitude, long longitude){
+	private Location(String userId, long latitude, long longitude){
 		this.userId = userId;
 		this.latitude = latitude;
 		this.longitutde = longitude;
 	}
 	
-	public long getUserId() {
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(long userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

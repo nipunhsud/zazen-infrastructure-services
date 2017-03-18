@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.zazen.infrastructure.v1.pojos.Location;
 import com.zazen.infrastructure.v1.pojos.Question;
 
 @Component
@@ -67,6 +68,26 @@ public class QuestionRepository {//extends HibernateDaoSupport implements  CrudR
 		.setParameterList("ids", ids);
 		return query.list() ;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Question> findAllByUser(String userId) {
+		@SuppressWarnings("rawtypes")
+		Query query = getSession().createQuery("FROM " + Question.class.getName()
+				+ " where user_id IN (:userId)")
+		.setParameter("userId", userId);
+		return query.list() ;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Question> findAllByLocation( Long longitude, Long latitude) {
+		@SuppressWarnings("rawtypes")
+		Query query = getSession().createQuery("FROM " + Question.class.getName()
+				+ " where longitude IN (:longitude) AND latitude IN (:latitude)")
+		.setParameter("longitude", longitude)
+		.setParameter("latitude", latitude);
+		return query.list() ;
+	}
+	
 
 	public long count() {
 		// TODO Auto-generated method stub

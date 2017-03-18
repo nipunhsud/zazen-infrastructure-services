@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zazen.infrastructure.v1.pojos.Question;
+import com.zazen.infrastructure.v1.pojos.User;
 import com.zazen.infrastructure.v1.repository.QuestionRepository;
+import com.zazen.infrastructure.v1.repository.UserRepository;
 import com.zazen.infrastructure.v1.service.QuestionService;
+import com.zazen.infrastructure.v1.vo.QuestionRequestVO;
 
 
 @Controller
@@ -29,13 +32,19 @@ public class QuestionController {
 	@Autowired
 	private QuestionRepository  questionRespository;
 	
+	@Autowired
+	private UserRepository userRepository;
+	
+	
 	@RequestMapping(value = "/question", method = RequestMethod.POST, headers = "Accept=application/json")
 	@ResponseBody 
-	public Question postQuestion( @RequestBody Question question){
-		logger.info(question.toString());
-		Question ques = questionRespository.save(question);
+	public Question postQuestion( @RequestBody QuestionRequestVO questionRequest){
+		logger.info(questionRequest.toString());
+		User user = userRepository.findOne(questionRequest.getUserId());
+		Question question = questionRequest.mapToQuestion(questionRequest);
+		question.setUser(user);
 		logger.debug("Saved");
-		return ques;
+		return questionRespository.save(question);
 	}
 	
 	@RequestMapping(value="/{id}" , method = RequestMethod.GET)
@@ -58,6 +67,20 @@ public class QuestionController {
 	public void deleteQuestion(@RequestParam long questionId){
 		
 		questionRespository.delete(questionId);
+	}
+	
+	@RequestMapping(value="/user/{id}" , method = RequestMethod.GET)
+	@ResponseBody
+	public List<Question> listQuestionsByUser(@RequestParam String userId){
+		List<Question> questionList = questionRespository.findAllByUser(userId);
+		return questionList;		
+	}
+	
+	@RequestMapping(value="/latitude/{id}/longitude/{id}" , method = RequestMethod.GET)
+	@ResponseBody
+	public List<Question> listQuestionsByLocation(Long longitude, Long latitude){
+		List<Question> questions = questionRespository.findAllByLocation(longitude, latitude);
+		return questions;		
 	}
 	
 }

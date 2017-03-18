@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.zazen.infrastructure.v1.pojos.Answer;
@@ -23,6 +24,7 @@ import com.zazen.infrastructure.v1.service.AnswerService;
 import com.zazen.infrastructure.v1.vo.AnswerRequestVO;
 
 @Controller
+@RequestMapping("answers")
 public class AnswerController {
 	
 Logger log= LoggerFactory.getLogger(AnswerController.class);
@@ -68,7 +70,10 @@ Logger log= LoggerFactory.getLogger(AnswerController.class);
 		answerRespository.delete(answerId);
 	}
 	
-	public void answerRequestConverToAnswer(AnswerRequestVO answerRequest){
-		//answerRequest.copyTo(answer);
+	@RequestMapping(value="/question/{id}" , method = RequestMethod.GET)
+	@ResponseBody
+	public List<Answer> listAnswersByUser(@RequestParam String questionId){
+		List<Answer> answers = answerRespository.findAllByQuestion(questionId);
+		return answers;		
 	}
 }

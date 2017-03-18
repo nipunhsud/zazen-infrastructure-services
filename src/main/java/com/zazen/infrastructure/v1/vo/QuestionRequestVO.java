@@ -2,26 +2,36 @@ package com.zazen.infrastructure.v1.vo;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.zazen.infrastructure.v1.pojos.Question;
 
 
 public class QuestionRequestVO {
 	
-	@JsonProperty("question")
+	@Autowired
+	private Question question;
+	
+	@JsonProperty("query")
 	@NotNull
-	private String question;
+	private String query;
 	
 	@JsonProperty("latitude")
 	@NotNull
-	private String locationLatitue;
+	private Long locationLatitue;
 	
 	@JsonProperty("longitude")
 	@NotNull
-	private String locationLongitute;
+	private Long locationLongitute;
 	
 	@JsonProperty("deviceId")
 	@NotNull
 	private String deviceId;
+	
+	@JsonProperty("userId")
+	@NotNull
+	private String UserId;
 	
 	public String getDeviceId() {
 		return deviceId;
@@ -55,32 +65,47 @@ public class QuestionRequestVO {
 	@JsonProperty("tag")
 	private String questionTag;
 
-	public String getQuestion() {
-		return question;
+	public String getQuery() {
+		return query;
 	}
 
-	public void setQuestion(String question) {
-		this.question = question;
+	public void setQuerty(String query) {
+		this.query = query;
 	}
 
-	public String getLocationLatitue() {
+	public Long getLocationLatitue() {
 		return locationLatitue;
 	}
 
-	public void setLocationLatitue(String locationLatitue) {
+	public void setLocationLatitue(Long locationLatitue) {
 		this.locationLatitue = locationLatitue;
 	}
 
-	public String getLocationLongitute() {
+	public Long getLocationLongitute() {
 		return locationLongitute;
 	}
 
-	public void setLocationLongitute(String locationLongitute) {
+	public void setLocationLongitute(Long locationLongitute) {
 		this.locationLongitute = locationLongitute;
+	}
+
+	public String getUserId() {
+		return UserId;
+	}
+
+	public void setUserId(String userId) {
+		UserId = userId;
 	}
 	
 	
-	
+	public Question mapToQuestion(QuestionRequestVO questionRequest){
+		
+		this.question.setLatitude(questionRequest.getLocationLatitue());
+		this.question.setLongitude(questionRequest.getLocationLongitute());
+		this.question.setQuery(questionRequest.getQuery());
+		
+		return this.question;
+	}
 	
 
 }

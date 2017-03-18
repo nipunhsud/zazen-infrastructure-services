@@ -4,12 +4,14 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -24,6 +26,7 @@ public class Question {
 	
 	private String locationName;
 	
+	//TODO Eventually move this into Location table?
 	private Long latitude;
 	
 	private Long longitude;
@@ -33,12 +36,12 @@ public class Question {
 	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd")
 	private Date lastModified;
-//	
-//	@ManyToOne
-//	@JoinColumn(nullable = false)
-//	@JsonIgnore
-//	private User user;
-//	
+	
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	@JsonIgnore
+	private User user;
+	
 	protected Question(){}
 	
 	public Question(String query, String locationName, Long latitude, Long longitude, Date createdDate, Date lastModified){//, , Date lastModified){
@@ -116,5 +119,13 @@ public class Question {
 
 	public void setLastModified(Date lastModified) {
 		this.lastModified = lastModified;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }
