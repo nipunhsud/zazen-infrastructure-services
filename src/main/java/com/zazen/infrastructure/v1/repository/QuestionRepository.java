@@ -16,21 +16,8 @@ import com.zazen.infrastructure.v1.pojos.Question;
 
 @Component
 @Transactional
-public class QuestionRepository {//extends HibernateDaoSupport implements  CrudRepository<Question, Long> {
+public class QuestionRepository extends BaseRepository {//extends HibernateDaoSupport implements  CrudRepository<Question, Long> {
 	
-	@Autowired
-	private SessionFactory sessionFactory;
-	
-	private EntityManager em;
-	
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-	
-    private Session getSession(){
-    	return this.sessionFactory.getCurrentSession();
-    }
-    
     @Transactional
 	public Question save(Question entity) {
 		getSession().save(entity);

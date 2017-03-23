@@ -5,12 +5,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.zazen.infrastructure.v1.pojos.Question;
 import com.zazen.infrastructure.v1.pojos.User;
@@ -20,7 +21,7 @@ import com.zazen.infrastructure.v1.service.QuestionService;
 import com.zazen.infrastructure.v1.vo.QuestionRequestVO;
 
 
-@Controller
+@RestController
 @RequestMapping("questions")
 public class QuestionController {
 
@@ -49,7 +50,7 @@ public class QuestionController {
 	
 	@RequestMapping(value="/{id}" , method = RequestMethod.GET)
 	@ResponseBody
-	public Question getQuestionById( @RequestParam(value = "questionId") String questionId){
+	public Question getQuestionById( @PathVariable("id") String questionId){
 		Question question = questionRespository.findOne(questionId);
 		System.out.println(question.toString());
 		return question;
@@ -64,21 +65,21 @@ public class QuestionController {
 	}
 	
 	@RequestMapping(value="/{id}" , method = RequestMethod.DELETE)
-	public void deleteQuestion(@RequestParam long questionId){
+	public void deleteQuestion(@PathVariable("id") long questionId){
 		
 		questionRespository.delete(questionId);
 	}
 	
 	@RequestMapping(value="/user/{id}" , method = RequestMethod.GET)
 	@ResponseBody
-	public List<Question> listQuestionsByUser(@RequestParam String userId){
+	public List<Question> listQuestionsByUser(@PathVariable("id") String userId){
 		List<Question> questionList = questionRespository.findAllByUser(userId);
 		return questionList;		
 	}
 	
-	@RequestMapping(value="/latitude/{id}/longitude/{id}" , method = RequestMethod.GET)
+	@RequestMapping(value="/latitude/{lat}/longitude/{long}" , method = RequestMethod.GET)
 	@ResponseBody
-	public List<Question> listQuestionsByLocation(Long longitude, Long latitude){
+	public List<Question> listQuestionsByLocation(@PathVariable("lat") Long longitude,@PathVariable("long") Long latitude){
 		List<Question> questions = questionRespository.findAllByLocation(longitude, latitude);
 		return questions;		
 	}

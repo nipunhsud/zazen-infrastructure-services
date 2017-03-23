@@ -8,26 +8,17 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.zazen.infrastructure.v1.pojos.Answer;
 import com.zazen.infrastructure.v1.pojos.Question;
 
 @Repository
-public class AnswerRepository {
-	
-	@Autowired
-	SessionFactory sessionFactory;
-	
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
-
-	private Session getSession(){
-		return this.sessionFactory.getCurrentSession();
-	}
+public class AnswerRepository extends BaseRepository {
 	
 	public AnswerRepository(){}
-
+	
+	@Transactional
 	public Answer save(Answer entity) {
 		getSession().save(entity);
 		

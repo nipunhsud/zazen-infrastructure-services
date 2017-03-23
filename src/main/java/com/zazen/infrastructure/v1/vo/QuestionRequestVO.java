@@ -99,7 +99,7 @@ public class QuestionRequestVO {
 	
 	
 	public Question mapToQuestion(QuestionRequestVO questionRequest){
-		
+		question = new Question();
 		this.question.setLatitude(questionRequest.getLocationLatitue());
 		this.question.setLongitude(questionRequest.getLocationLongitute());
 		this.question.setQuery(questionRequest.getQuery());

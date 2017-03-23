@@ -9,11 +9,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
+@Component
 @Entity
 public class Question {
 	
@@ -42,7 +43,7 @@ public class Question {
 	@JsonIgnore
 	private User user;
 	
-	protected Question(){}
+	public Question(){}
 	
 	public Question(String query, String locationName, Long latitude, Long longitude, Date createdDate, Date lastModified){//, , Date lastModified){
 		

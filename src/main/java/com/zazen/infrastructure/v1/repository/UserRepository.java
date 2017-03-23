@@ -8,24 +8,18 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.zazen.infrastructure.v1.pojos.User;
 
+@Component
 @Repository
 @Transactional
-public class UserRepository {
+public class UserRepository extends BaseRepository {
 	
-	@Autowired
-	SessionFactory sessionFactory;
-	
-	
-	public Session getSession(){
-		
-		return sessionFactory.openSession();
-	}
-	
+	@Transactional
 	public String save(User user){
 		String userId = (String) getSession().save(user);
 		return userId;
