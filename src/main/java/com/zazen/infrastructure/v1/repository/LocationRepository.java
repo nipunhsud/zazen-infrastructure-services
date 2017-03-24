@@ -15,21 +15,10 @@ import com.zazen.infrastructure.v1.pojos.Question;
 
 @Repository
 @Transactional
-public class LocationRepository {
+public class LocationRepository extends BaseRepository {
 	
 	@Autowired
 	Location location;
-	
-	@Autowired
-	SessionFactory sessionFactory;
-	
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
-
-	private Session getSession(){
-		return this.sessionFactory.getCurrentSession();
-	}
 	
 	public Location findOne(String id) {
 		return getSession().get(Location.class, id);
