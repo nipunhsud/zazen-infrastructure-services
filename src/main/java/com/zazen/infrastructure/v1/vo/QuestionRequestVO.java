@@ -103,7 +103,9 @@ public class QuestionRequestVO {
 		this.question.setLatitude(questionRequest.getLocationLatitue());
 		this.question.setLongitude(questionRequest.getLocationLongitute());
 		this.question.setQuery(questionRequest.getQuery());
-		
+		this.question.setLocationName(questionRequest.getQuestionTag());
+		this.question.setCreateTime();
+		this.question.setLastModified();
 		return this.question;
 	}
 	

@@ -2,8 +2,6 @@ package com.zazen.infrastructure.configuration;
 
 import java.util.Properties;
 
-import javax.naming.NamingException;
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
@@ -16,11 +14,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.JpaVendorAdapter;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -49,35 +42,6 @@ public class InfrastructureServiceWebApplicationConfiguration extends WebMvcConf
         return dataSource;
     }
     
-    /*
-     * Provider specific adapter.
-     */
-    @Bean
-    public JpaVendorAdapter jpaVendorAdapter() {
-        HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
-        return hibernateJpaVendorAdapter;
-    }
- 
-    @Bean(name = "entityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws NamingException {
-        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-        factoryBean.setDataSource(dataSource());
-        factoryBean.setPackagesToScan(new String[] { "com.zazen.infrastructure.v1.pojos" });
-        factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
-        //factoryBean.setJpaProperties(jpaProperties());
-        return factoryBean;
-    }
-    
-    @Bean
-    public PlatformTransactionManager transactionManager() throws NamingException {
-        JpaTransactionManager tm = 
-            new JpaTransactionManager();
-            tm.setEntityManagerFactory((EntityManagerFactory) entityManagerFactory());
-            tm.setDataSource(dataSource());
-        return tm;
-    }
- 
-   
  
     /*
      * Here you can specify any provider specific properties.
@@ -120,23 +84,4 @@ public class InfrastructureServiceWebApplicationConfiguration extends WebMvcConf
 		return sessionFactory;
 	}
 	 
-//	@Bean
-//	@Autowired
-//	public HibernateTransactionManager transactionManager(
-//			SessionFactory sessionFactory) {
-//
-//		HibernateTransactionManager txManager
-//		= new HibernateTransactionManager();
-//		txManager.setSessionFactory(sessionFactory);
-//
-//		return txManager;
-//	}
-	
-//	@Bean
-//	@Autowired
-//	public SessionFactory sessionFactory(){
-//		LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
-//		return localSessionFactoryBean.getObject();
-//	}
-	
 }

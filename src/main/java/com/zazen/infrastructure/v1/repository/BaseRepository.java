@@ -1,7 +1,5 @@
 package com.zazen.infrastructure.v1.repository;
 
-import javax.persistence.EntityManager;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

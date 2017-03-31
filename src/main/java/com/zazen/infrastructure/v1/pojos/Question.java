@@ -11,12 +11,12 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.zazen.infrastructure.v1.repository.TimeStampedEntity;
 
 @Component
 @Entity
-public class Question {
+public class Question extends TimeStampedEntity {
 	
 	@Id
 	@GeneratedValue(generator = "uuid")
@@ -32,11 +32,11 @@ public class Question {
 	
 	private Long longitude;
 	
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd")
-	private Date createdDate;
+//	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd")
+//	private Date createdDate;
 	
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd")
-	private Date lastModified;
+//	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd")
+//	private Date lastModified;
 	
 	@ManyToOne
 	@JoinColumn(nullable = false)
@@ -51,8 +51,8 @@ public class Question {
 		this.locationName = locationName;
 		this.latitude = latitude;
 		this.longitude = longitude;
-		this.createdDate = createdDate;
-		this.lastModified = lastModified;
+//		this.createdDate = createdDate;
+//		this.lastModified = lastModified;
 		
 	}
 	
@@ -80,13 +80,13 @@ public class Question {
 		this.latitude = latitude;
 	}
 
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public  void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
+//	public Date getCreatedDate() {
+//		return createdDate;
+//	}
+//
+//	public  void setCreatedDate(Date createdDate) {
+//		this.createdDate = createdDate;
+//	}
 
 //	public User getUser() {
 //		return user;
@@ -114,13 +114,13 @@ public class Question {
 		this.longitude = longitude;
 	}
 
-	public Date getLastModified() {
-		return lastModified;
-	}
-
-	public void setLastModified(Date lastModified) {
-		this.lastModified = lastModified;
-	}
+//	public Date getLastModified() {
+//		return lastModified;
+//	}
+//
+//	public void setLastModified(Date lastModified) {
+//		this.lastModified = lastModified;
+//	}
 
 	public User getUser() {
 		return user;

@@ -2,19 +2,19 @@ package com.zazen.infrastructure.v1.repository;
 
 import java.util.Date;
 
-public class TimeStampedEntity {
+public class BaseTimedEntity {
 	
-	private Date createTime;
+	private Date createdDate;
 	
 	private Date lastModified;
 
-	public Date getCreateTime() {
-		return createTime;
+	public Date getCreatedDate() {
+		return createdDate;
 	}
 
-	public void setCreateTime() {
-		if(this.createTime == null){
-			this.createTime = new Date();
+	public void setCreatedDate() {
+		if(this.createdDate == null){
+			this.createdDate = new Date();	
 		}
 		
 	}
@@ -26,4 +26,6 @@ public class TimeStampedEntity {
 	public void setLastModified() {
 		this.lastModified = new Date();
 	}
+	
+	
 }
