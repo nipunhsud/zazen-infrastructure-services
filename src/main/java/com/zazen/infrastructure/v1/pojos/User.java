@@ -35,6 +35,10 @@ public class User {
 	
 	private String lastName;
 	
+	private String deviceId;
+	
+	private String registrationId;
+	
 	private User() {}
 	
 	public User(String username, String password, String email, Date createdDate, Date lastModified, String firstName, String lastName) {
@@ -109,6 +113,22 @@ public class User {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getDeviceId() {
+		return deviceId;
+	}
+
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
+	}
+
+	public String getRegistrationId() {
+		return registrationId;
+	}
+
+	public void setRegistrationId(String registrationId) {
+		this.registrationId = registrationId;
 	}
 	
 	

@@ -45,6 +45,19 @@ public class QuestionController {
 		Question question = questionRequest.mapToQuestion(questionRequest);
 		question.setUser(user);
 		logger.debug("Saved");
+		
+		//#TODO Notes for Elastic search
+		// Create indexes for lat and long.
+		// Need to do a geo location search and find the lat and long that around within a certain radius
+		// Using that lat and long, find users and their registration id
+		//Use fcm service to send question to the listed users.
+		
+		//#TODO use a cron job to run and get users around the location of the question asked
+		// From those users find the registration Id and using fcm service send notifications to them 
+		// Maybe need a status enum?
+		
+		List<User> usersAroundLocation = questionService.getUsersAroundQuestion(question);
+		//Send question to these users using fcm service
 		return questionRespository.save(question);
 	}
 	

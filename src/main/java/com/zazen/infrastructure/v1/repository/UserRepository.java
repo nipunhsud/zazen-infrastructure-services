@@ -43,4 +43,9 @@ public class UserRepository extends BaseRepository {
 				
 		return query.list();
 	}
+	
+	public List<User> findUserByLocation(String latitude, String longitude){
+		//#TODO get the users by joining on location and matching passed in location and latitude
+		return null;
+	}
 }
