@@ -1,9 +1,16 @@
 package com.zazen.infrastructure.configuration;
 
+import java.net.InetSocketAddress;
 import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.elasticsearch.client.Client;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.Setting;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -84,4 +91,13 @@ public class InfrastructureServiceWebApplicationConfiguration extends WebMvcConf
 		return sessionFactory;
 	}
 	 
+	
+	@Bean
+	public Client elasticClient(){
+		Settings setting=Settings.builder().put("cluster.name",
+				"elasticsearch").build();
+		TransportClient transportClient=new PreBuiltTransportClient(setting);
+		transportClient.addTransportAddress(new InetSocketTransportAddress(new InetSocketAddress("localhost", 9300)));
+		return (Client)transportClient;
+	}
 }

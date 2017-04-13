@@ -1,9 +1,13 @@
 package com.zazen.infrastructure.v1.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.client.ClientProtocolException;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +48,10 @@ public class QuestionController {
 	@Autowired
 	private FcmService fcmService;
 	
+
+	@Autowired
+	private Client elasticClient;
+	
 	
 	@RequestMapping(value = "/question", method = RequestMethod.POST, headers = "Accept=application/json")
 	@ResponseBody 
@@ -59,6 +67,13 @@ public class QuestionController {
 		// Need to do a geo location search and find the lat and long that around within a certain radius
 		// Using that lat and long, find users and their registration id
 		//Use fcm service to send question to the listed users.
+		
+		// Comment this part on your machine till i complete the testing.
+		IndexResponse indexResponse=elasticClient.prepareIndex("questions", "question").setSource(putJsonDocument(questionRequest.getQuery(),
+				questionRequest.getDeviceId(),questionRequest.getLocationLatitue(),
+				questionRequest.getLocationLongitute())).get();
+		
+		elasticClient.close();
 		
 		//#TODO use a cron job to run and get users around the location of the question asked
 		// From those users find the registration Id and using fcm service send notifications to them 
@@ -126,5 +141,17 @@ public class QuestionController {
 		}
 		//message/
 	}
+	
+	
+	private static Map<String, Object> putJsonDocument(String question,String deviceId,long lat,long lon){
+		Map<String, Object> jsonDocument = new HashMap<String, Object>();
+		jsonDocument.put("question", question);
+		jsonDocument.put("deviceId", deviceId);
+		Map<String,Long> mapLocation=new HashMap<String,Long>();
+		mapLocation.put("lat",lat);
+		mapLocation.put("lon", lon);
+		jsonDocument.put("location", mapLocation);
+		return jsonDocument;
+		}
 	
 }
