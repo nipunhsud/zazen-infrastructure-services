@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zazen.infrastructure.configuration.enumeration.Priority;
 import com.zazen.infrastructure.v1.pojos.Message;
 import com.zazen.infrastructure.v1.pojos.Notification;
 import com.zazen.infrastructure.v1.pojos.Question;
@@ -108,7 +109,8 @@ public class QuestionController {
 		Message message = new Message();
 		//phone id - "fXaM6Dic1nI:APA91bE7-bxvj4JVgj4cBK9GG2QKr8fsYG6tVAWm9jskO7R6tzWSGHODOGLhj2YkMoIa0tHKQ1HqUn10zDhyqCaMckuuQWWO0bAtZDijUE0Q-RsU7GAhayNuAAU54IRmo1Z01Bi8gzwA"
 		message.setTo("e_4bc0aoIdg:APA91bH6aoxf_Rkte6B6Zd0hI9EpIH9_0DTyDrfl36vuLz1odo_-BqKwMfqcIBOemmRBqY6vyDjSWksUrmhY1L6Nmgc7t1cq0Bxa5ARIPWrb-UK0uAVyB0ncvktklzg0tg1Fb6CW9o-e");
-		message.setPriority("high");
+		//TODO think about how to prioritize 
+		//message.setPriority(Priority.HIGH);
 		Notification note = new Notification();
 		note.setBody(query);
 		note.setTitle("Test Me");

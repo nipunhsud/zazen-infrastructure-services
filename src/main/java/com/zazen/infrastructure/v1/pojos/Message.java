@@ -1,12 +1,16 @@
 package com.zazen.infrastructure.v1.pojos;
 
+import java.util.Properties;
+
+import com.zazen.infrastructure.configuration.enumeration.Priority;
+
 public class Message {
 	
 	private Notification notification;
 	
 	private String to;
 	
-	private String priority;
+	private Priority priority;
 
 	public Notification getNotification() {
 		return notification;
@@ -24,11 +28,11 @@ public class Message {
 		this.to = to;
 	}
 
-	public String getPriority() {
+	public Priority getPriority() {
 		return priority;
 	}
 
-	public void setPriority(String priority) {
+	public void setPriority(Priority priority) {
 		this.priority = priority;
 	}
 	
