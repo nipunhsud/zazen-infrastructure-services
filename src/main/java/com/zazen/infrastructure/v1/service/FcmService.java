@@ -23,7 +23,7 @@ public class FcmService {
 	private static String SERVER_KEY = "key=AAAALFsjD1Q:APA91bHONY85PMG3TmP9E754P6n-7jGvVoFQonKpAgrJiS5S_QcNeGBI7-FPRgIVR_uic3R5-XXmKiyuVm2Qd_5uDSQMdWRMFenxESerDHGPH1cWMD174OFrnPAa5qXTMIoSX0OPIABc";
 	
 	
-	public void sendFcmMessage(Message message) throws ClientProtocolException, IOException{
+	public String sendFcmMessage(Message message) throws ClientProtocolException, IOException{
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpPost post = new HttpPost(FCM_URL);
 		post.setHeader("Content-type", "application/json");
@@ -47,6 +47,11 @@ public class FcmService {
 		HttpResponse response = client.execute(post);
 		BufferedReader rd = new BufferedReader(
 		        new InputStreamReader(response.getEntity().getContent()));
+		
+		int status = response.getStatusLine().getStatusCode();
+		if(status == 200){
+			//happy path
+		}
 
 		StringBuffer result = new StringBuffer();
 		String line = "";
@@ -55,5 +60,6 @@ public class FcmService {
 		}
 		System.out.println("Here is the response"+ result.toString());
 		System.out.println(messageToSend);
+		return result.toString();
 	}
 }

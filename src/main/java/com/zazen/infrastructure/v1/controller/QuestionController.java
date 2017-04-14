@@ -78,10 +78,12 @@ public class QuestionController {
 		//#TODO use a cron job to run and get users around the location of the question asked
 		// From those users find the registration Id and using fcm service send notifications to them 
 		// Maybe need a status enum?
-		sendMessage(questionRequest.getQuery());
+		
 		List<User> usersAroundLocation = questionService.getUsersAroundQuestion(question);
 		//Send question to these users using fcm service
-		return questionRespository.save(question);
+		Question createdQuestion = questionRespository.save(question);
+		questionService.sendMessage(createdQuestion);
+		return createdQuestion;
 	}
 	
 	@RequestMapping(value="/{id}" , method = RequestMethod.GET)
@@ -120,28 +122,28 @@ public class QuestionController {
 		return questions;		
 	}
 	
-	public void sendMessage(String query){
-		Message message = new Message();
-		//phone id - "fXaM6Dic1nI:APA91bE7-bxvj4JVgj4cBK9GG2QKr8fsYG6tVAWm9jskO7R6tzWSGHODOGLhj2YkMoIa0tHKQ1HqUn10zDhyqCaMckuuQWWO0bAtZDijUE0Q-RsU7GAhayNuAAU54IRmo1Z01Bi8gzwA"
-		message.setTo("e_4bc0aoIdg:APA91bH6aoxf_Rkte6B6Zd0hI9EpIH9_0DTyDrfl36vuLz1odo_-BqKwMfqcIBOemmRBqY6vyDjSWksUrmhY1L6Nmgc7t1cq0Bxa5ARIPWrb-UK0uAVyB0ncvktklzg0tg1Fb6CW9o-e");
-		//TODO think about how to prioritize 
-		//message.setPriority(Priority.HIGH);
-		Notification note = new Notification();
-		note.setBody(query);
-		note.setTitle("Test Me");
-		message.setNotification(note);
-		try {
-			fcmService.sendFcmMessage(message);
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//message/
-	}
-	
+//	public void sendMessage(String query){
+//		Message message = new Message();
+//		//phone id - "fXaM6Dic1nI:APA91bE7-bxvj4JVgj4cBK9GG2QKr8fsYG6tVAWm9jskO7R6tzWSGHODOGLhj2YkMoIa0tHKQ1HqUn10zDhyqCaMckuuQWWO0bAtZDijUE0Q-RsU7GAhayNuAAU54IRmo1Z01Bi8gzwA"
+//		message.setTo("e_4bc0aoIdg:APA91bH6aoxf_Rkte6B6Zd0hI9EpIH9_0DTyDrfl36vuLz1odo_-BqKwMfqcIBOemmRBqY6vyDjSWksUrmhY1L6Nmgc7t1cq0Bxa5ARIPWrb-UK0uAVyB0ncvktklzg0tg1Fb6CW9o-e");
+//		//TODO think about how to prioritize 
+//		//message.setPriority(Priority.HIGH);
+//		Notification note = new Notification();
+//		note.setBody(query);
+//		note.setTitle("Test Me");
+//		message.setNotification(note);
+//		try {
+//			fcmService.sendFcmMessage(message);
+//		} catch (ClientProtocolException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		//message/
+//	}
+//	
 	
 	private static Map<String, Object> putJsonDocument(String question,String deviceId,long lat,long lon){
 		Map<String, Object> jsonDocument = new HashMap<String, Object>();
