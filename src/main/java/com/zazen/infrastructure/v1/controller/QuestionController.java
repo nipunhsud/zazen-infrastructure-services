@@ -49,8 +49,8 @@ public class QuestionController {
 	private FcmService fcmService;
 	
 
-	@Autowired
-	private Client elasticClient;
+//	@Autowired
+//	private Client elasticClient;
 	
 	
 	@RequestMapping(value = "/question", method = RequestMethod.POST, headers = "Accept=application/json")
@@ -69,20 +69,20 @@ public class QuestionController {
 		//Use fcm service to send question to the listed users.
 		
 		// Comment this part on your machine till i complete the testing.
-		IndexResponse indexResponse=elasticClient.prepareIndex("questions", "question").setSource(putJsonDocument(questionRequest.getQuery(),
-				questionRequest.getDeviceId(),questionRequest.getLocationLatitue(),
-				questionRequest.getLocationLongitute())).get();
-		
-		elasticClient.close();
+//		IndexResponse indexResponse=elasticClient.prepareIndex("questions", "question").setSource(putJsonDocument(questionRequest.getQuery(),
+//				questionRequest.getDeviceId(),questionRequest.getLocationLatitue(),
+//				questionRequest.getLocationLongitute())).get();
+//		
+//		elasticClient.close();
 		
 		//#TODO use a cron job to run and get users around the location of the question asked
 		// From those users find the registration Id and using fcm service send notifications to them 
 		// Maybe need a status enum?
 		
-		List<User> usersAroundLocation = questionService.getUsersAroundQuestion(question);
+		//List<User> usersAroundLocation = questionService.getUsersAroundQuestion(question);
 		//Send question to these users using fcm service
 		Question createdQuestion = questionRespository.save(question);
-		questionService.sendMessage(createdQuestion);
+		//questionService.sendMessage(createdQuestion, usersAroundLocation);
 		return createdQuestion;
 	}
 	

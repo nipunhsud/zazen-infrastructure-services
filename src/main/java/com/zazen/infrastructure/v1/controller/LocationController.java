@@ -32,11 +32,20 @@ Logger logger= LoggerFactory.getLogger(LocationController.class);
 	private UserRepository userRepository;
 	
 	
-	@RequestMapping(value = "/location", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "/location", method = RequestMethod.PUT, headers = "Accept=application/json")
 	@ResponseBody 
 	public Location postLocation( @RequestBody Location location){
-		User user = userRepository.findOne(location.getUserId());
-		return locationRepository.save(location);
+		Location existingLocation = locationRepository.findByUserId(location.getUserId());
+		if(existingLocation == null){
+			locationRepository.save(location);
+			return location;
+		}else{
+			existingLocation.setLatitude(location.getLatitude());
+			existingLocation.setLongitutde(location.getLongitutde());
+			locationRepository.update(existingLocation);
+			return existingLocation;
+		}
+		
 	}
 	
 	@RequestMapping(value="/{id}" , method = RequestMethod.GET)

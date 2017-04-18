@@ -2,11 +2,13 @@ package com.zazen.infrastructure.v1.pojos;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Component;
@@ -24,8 +26,7 @@ public class Answer {
 	@JoinColumn(nullable = false)
 	private Question question;
 	
-	@ManyToOne
-	@JoinColumn(nullable = false)
+	@OneToOne(cascade = {CascadeType.ALL})
 	private Recommendation recommendation;
 	
 	private long  fileId;

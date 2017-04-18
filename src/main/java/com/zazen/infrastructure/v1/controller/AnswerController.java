@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.zazen.infrastructure.v1.pojos.Answer;
 import com.zazen.infrastructure.v1.pojos.Question;
+import com.zazen.infrastructure.v1.pojos.Recommendation;
 import com.zazen.infrastructure.v1.repository.AnswerRepository;
 import com.zazen.infrastructure.v1.repository.QuestionRepository;
 import com.zazen.infrastructure.v1.service.AnswerService;
@@ -41,12 +42,18 @@ Logger log= LoggerFactory.getLogger(AnswerController.class);
 	@Autowired
 	private Answer answer;
 	
-	@RequestMapping(value = "/answer", method = RequestMethod.POST)
+	@Autowired
+	private Recommendation recommendation;
+	
+	@RequestMapping(value = "/answer", method = RequestMethod.POST, headers = "Accept=application/json")
+	@ResponseBody 
 	public Answer answerPost( @RequestBody AnswerRequestVO answerRequest) throws Exception{
 		
 		Question question = questionRepository.findOne(answerRequest.getQuestion());
 		answer.setQuestion(question);
 		answer.setAnswerRecommendation(answerRequest.getAnswer());
+		recommendation.setDescription(answerRequest.getAnswer());
+		answer.setRecommendation(recommendation);
 		Answer savedAnswer = answerRespository.save(answer);
 		return savedAnswer;
 	}

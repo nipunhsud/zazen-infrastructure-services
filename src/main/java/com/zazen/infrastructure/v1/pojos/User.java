@@ -4,19 +4,18 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.zazen.infrastructure.v1.repository.TimeStampedEntity;
 
 @Entity
-public class User {
+public class User extends TimeStampedEntity{
 	
 	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+//	@GeneratedValue(generator = "uuid")
+//	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
 	private String id;
 	
 	private String username;
@@ -24,12 +23,6 @@ public class User {
 	private String password;
 	
 	private String email;
-	
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd")
-	private Date createdDate;
-	
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd")
-	private Date lastModified;
 	
 	private String firstName;
 	
@@ -44,8 +37,6 @@ public class User {
 	public User(String username, String password, String email, Date createdDate, Date lastModified, String firstName, String lastName) {
 		this.username = username;
 		this.password = password;
-		this.createdDate = createdDate;
-		this.lastModified = lastModified;
 		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -81,22 +72,6 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public Date getLastModified() {
-		return lastModified;
-	}
-
-	public void setLastModified(Date lastModified) {
-		this.lastModified = lastModified;
 	}
 
 	public String getFirstName() {

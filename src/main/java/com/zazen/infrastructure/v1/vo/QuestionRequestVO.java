@@ -1,5 +1,7 @@
 package com.zazen.infrastructure.v1.vo;
 
+import java.math.BigDecimal;
+
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +21,11 @@ public class QuestionRequestVO {
 	
 	@JsonProperty("latitude")
 	@NotNull
-	private Long locationLatitue;
+	private BigDecimal locationLatitue;
 	
 	@JsonProperty("longitude")
 	@NotNull
-	private Long locationLongitute;
+	private BigDecimal locationLongitute;
 	
 	@JsonProperty("deviceId")
 	@NotNull
@@ -32,6 +34,9 @@ public class QuestionRequestVO {
 	@JsonProperty("userId")
 	@NotNull
 	private String UserId;
+	
+	@JsonProperty("locationName")
+	private String questionTag;
 	
 	public String getDeviceId() {
 		return deviceId;
@@ -61,9 +66,6 @@ public class QuestionRequestVO {
 	@NotNull
 	private String timeStamp;
 	
-	
-	@JsonProperty("tag")
-	private String questionTag;
 
 	public String getQuery() {
 		return query;
@@ -73,19 +75,19 @@ public class QuestionRequestVO {
 		this.query = query;
 	}
 
-	public Long getLocationLatitue() {
+	public BigDecimal getLocationLatitue() {
 		return locationLatitue;
 	}
 
-	public void setLocationLatitue(Long locationLatitue) {
+	public void setLocationLatitue(BigDecimal locationLatitue) {
 		this.locationLatitue = locationLatitue;
 	}
 
-	public Long getLocationLongitute() {
+	public BigDecimal getLocationLongitute() {
 		return locationLongitute;
 	}
 
-	public void setLocationLongitute(Long locationLongitute) {
+	public void setLocationLongitute(BigDecimal locationLongitute) {
 		this.locationLongitute = locationLongitute;
 	}
 

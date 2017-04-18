@@ -2,6 +2,9 @@ package com.zazen.infrastructure.v1.repository;
 
 import java.util.Date;
 
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public class TimeStampedEntity {
 	
 	private Date createTime;
@@ -26,4 +29,6 @@ public class TimeStampedEntity {
 	public void setLastModified() {
 		this.lastModified = new Date();
 	}
+	
+	
 }

@@ -42,27 +42,29 @@ public class QuestionService {
 		return null;
 	}
 	
-	public void sendMessage(Question question){
-		Message message = new Message();
-		//phone id - "fXaM6Dic1nI:APA91bE7-bxvj4JVgj4cBK9GG2QKr8fsYG6tVAWm9jskO7R6tzWSGHODOGLhj2YkMoIa0tHKQ1HqUn10zDhyqCaMckuuQWWO0bAtZDijUE0Q-RsU7GAhayNuAAU54IRmo1Z01Bi8gzwA"
-		//message.setTo("e_4bc0aoIdg:APA91bH6aoxf_Rkte6B6Zd0hI9EpIH9_0DTyDrfl36vuLz1odo_-BqKwMfqcIBOemmRBqY6vyDjSWksUrmhY1L6Nmgc7t1cq0Bxa5ARIPWrb-UK0uAVyB0ncvktklzg0tg1Fb6CW9o-e");
-		message.setTo(question.getUser().getRegistrationId());
-		//TODO think about how to prioritize , everything is high for now
-		message.setPriority(Priority.HIGH);
-		Notification note = new Notification();
-		note.setBody(question.getQuery());
-		note.setTitle(question.getLocationName() + " Review Update");
-		message.setNotification(note);
-		try {
-			String response = fcmService.sendFcmMessage(message);
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public void sendMessage(Question question, List<User> users){
+		
+		for(User user : users){
+			Message message = new Message();
+			//phone id - "fXaM6Dic1nI:APA91bE7-bxvj4JVgj4cBK9GG2QKr8fsYG6tVAWm9jskO7R6tzWSGHODOGLhj2YkMoIa0tHKQ1HqUn10zDhyqCaMckuuQWWO0bAtZDijUE0Q-RsU7GAhayNuAAU54IRmo1Z01Bi8gzwA"
+			//message.setTo("e_4bc0aoIdg:APA91bH6aoxf_Rkte6B6Zd0hI9EpIH9_0DTyDrfl36vuLz1odo_-BqKwMfqcIBOemmRBqY6vyDjSWksUrmhY1L6Nmgc7t1cq0Bxa5ARIPWrb-UK0uAVyB0ncvktklzg0tg1Fb6CW9o-e");
+			message.setTo(user.getRegistrationId());
+			//TODO think about how to prioritize , everything is high for now
+			message.setPriority(Priority.HIGH);
+			Notification note = new Notification();
+			note.setBody(question.getQuery());
+			note.setTitle(question.getLocationName() + " Review Update");
+			message.setNotification(note);
+			try {
+				String response = fcmService.sendFcmMessage(message);
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		//message/
 	}
 	
 }

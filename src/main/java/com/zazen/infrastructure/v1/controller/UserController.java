@@ -23,10 +23,10 @@ public class UserController {
 	UserRepository userRepository;
 	
 	
-	@RequestMapping(value ="/user", method = RequestMethod.POST, headers = "Accept=application/json" )
-	public String saveUser(@RequestBody User user){
-		String userUUID = userRepository.save(user);
-		return userUUID;
+	@RequestMapping(value ="/user", method = RequestMethod.PUT, headers = "Accept=application/json" )
+	public User saveUser(@RequestBody User userRequest){
+		User user = userRepository.save(userRequest);
+		return user;
 	}
 	
 	@RequestMapping(value= "/user/{id}", method = RequestMethod.GET, headers = "Accept=application/json")

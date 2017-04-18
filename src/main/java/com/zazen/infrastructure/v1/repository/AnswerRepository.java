@@ -3,13 +3,15 @@ package com.zazen.infrastructure.v1.repository;
 import java.util.List;
 
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.zazen.infrastructure.v1.pojos.Answer;
 
 
-@Repository
+@Component
+@Transactional
 public class AnswerRepository extends BaseRepository {
 	
 	public AnswerRepository(){}

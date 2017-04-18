@@ -1,17 +1,20 @@
 package com.zazen.infrastructure.v1.pojos;
 
+import java.math.BigDecimal;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.zazen.infrastructure.v1.repository.TimeStampedEntity;
 
 @Entity
 @Component
-public class Location {
+public class Location extends TimeStampedEntity {
 
 	@Id
 	@GeneratedValue(generator = "uuid")
@@ -20,13 +23,15 @@ public class Location {
 	
 	private String userId;
 	
-	private long latitude;
+	@Column(precision=10, scale=6)
+	private BigDecimal latitude;
 	
-	private long longitutde;
+	@Column(precision=10, scale=6)
+	private BigDecimal longitutde;
 	
 	private Location(){}
 	
-	private Location(String userId, long latitude, long longitude){
+	private Location(String userId, BigDecimal latitude, BigDecimal longitude){
 		this.userId = userId;
 		this.latitude = latitude;
 		this.longitutde = longitude;
@@ -48,19 +53,19 @@ public class Location {
 		this.userId = userId;
 	}
 
-	public long getLatitude() {
+	public BigDecimal getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(long latitude) {
+	public void setLatitude(BigDecimal latitude) {
 		this.latitude = latitude;
 	}
 
-	public long getLongitutde() {
+	public BigDecimal getLongitutde() {
 		return longitutde;
 	}
 
-	public void setLongitutde(long longitutde) {
+	public void setLongitutde(BigDecimal longitutde) {
 		this.longitutde = longitutde;
 	}
 }

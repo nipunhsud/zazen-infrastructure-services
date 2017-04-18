@@ -4,18 +4,19 @@ import java.util.List;
 
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.zazen.infrastructure.v1.pojos.Question;
 
 @Component
-@Transactional
+@Transactional(propagation = Propagation.REQUIRES_NEW)
 public class QuestionRepository extends BaseRepository {//extends HibernateDaoSupport implements  CrudRepository<Question, Long> {
 	
-    @Transactional
-	public Question save(Question entity) {
-		getSession().save(entity);
-		return entity;
+//    @Transactional
+	public Question save(Question question) {
+		Question createdQuestion = (Question) super.save(question);
+		return createdQuestion;
 	}
 
 	public <S extends Question> Iterable<S> save(Iterable<S> entities) {

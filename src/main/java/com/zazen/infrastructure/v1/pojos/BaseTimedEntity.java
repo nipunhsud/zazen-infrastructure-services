@@ -1,11 +1,15 @@
-package com.zazen.infrastructure.v1.repository;
+package com.zazen.infrastructure.v1.pojos;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class BaseTimedEntity {
-	
+		
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd")
 	private Date createdDate;
 	
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd")
 	private Date lastModified;
 
 	public Date getCreatedDate() {

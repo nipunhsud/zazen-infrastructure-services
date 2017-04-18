@@ -1,7 +1,9 @@
 package com.zazen.infrastructure.v1.pojos;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -28,9 +30,11 @@ public class Question extends TimeStampedEntity {
 	private String locationName;
 	
 	//TODO Eventually move this into Location table?
-	private Long latitude;
+	@Column(precision=10, scale=6)
+	private BigDecimal latitude;
 	
-	private Long longitude;
+	@Column(precision=10, scale=6)
+	private BigDecimal longitude;
 	
 //	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd")
 //	private Date createdDate;
@@ -45,7 +49,7 @@ public class Question extends TimeStampedEntity {
 	
 	public Question(){}
 	
-	public Question(String query, String locationName, Long latitude, Long longitude, Date createdDate, Date lastModified){//, , Date lastModified){
+	public Question(String query, String locationName, BigDecimal latitude, BigDecimal longitude, Date createdDate, Date lastModified){//, , Date lastModified){
 		
 		this.query = query;
 		this.locationName = locationName;
@@ -72,11 +76,11 @@ public class Question extends TimeStampedEntity {
 		this.locationName = locationName;
 	}
 	
-	public Long getLatitude() {
+	public BigDecimal getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(Long latitude) {
+	public void setLatitude(BigDecimal latitude) {
 		this.latitude = latitude;
 	}
 
@@ -106,11 +110,11 @@ public class Question extends TimeStampedEntity {
 		this.query = query;
 	}
 
-	public Long getLongitude() {
+	public BigDecimal getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(Long longitude) {
+	public void setLongitude(BigDecimal longitude) {
 		this.longitude = longitude;
 	}
 
