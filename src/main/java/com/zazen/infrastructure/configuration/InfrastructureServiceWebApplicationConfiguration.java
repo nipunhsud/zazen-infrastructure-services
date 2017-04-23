@@ -92,12 +92,12 @@ public class InfrastructureServiceWebApplicationConfiguration extends WebMvcConf
 	}
 	 
 	
-	@Bean
-	public Client elasticClient(){
-		Settings setting=Settings.builder().put("cluster.name",
-				"elasticsearch").build();
-		TransportClient transportClient=new PreBuiltTransportClient(setting);
-		transportClient.addTransportAddress(new InetSocketTransportAddress(new InetSocketAddress("localhost", 9300)));
-		return (Client)transportClient;
-	}
+//	@Bean
+//	public Client elasticClient(){
+//		Settings setting=Settings.builder().put("cluster.name",
+//				"elasticsearch").build();
+//		TransportClient transportClient=new PreBuiltTransportClient(setting);
+//		transportClient.addTransportAddress(new InetSocketTransportAddress(new InetSocketAddress("localhost", 9300)));
+//		return (Client)transportClient;
+//	}
 }

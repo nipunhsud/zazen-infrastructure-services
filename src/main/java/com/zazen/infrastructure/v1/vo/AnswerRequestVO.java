@@ -14,6 +14,9 @@ public class AnswerRequestVO {
 	@JsonProperty("question")
 	@NotNull
 	private String questionId;
+	
+	@JsonProperty("user")
+	private String userId;
 
 	public String getAnswer() {
 		return answer;
@@ -23,13 +26,22 @@ public class AnswerRequestVO {
 		this.answer = answer;
 	}
 
-	public String getQuestion() {
+	public String getQuestionId() {
 		return questionId;
 	}
 
-	public void setQuestion(String questionId) {
+	public void setQuestionId(String questionId) {
 		this.questionId = questionId;
 	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
 	
 //	public Answer copyTo(AnswerRequestVO answerRequest){
 //		Answer answer = new Answer();

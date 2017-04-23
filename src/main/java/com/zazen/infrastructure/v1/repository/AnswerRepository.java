@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.zazen.infrastructure.v1.pojos.Answer;
+import com.zazen.infrastructure.v1.pojos.Question;
 
 
 @Component
@@ -18,9 +19,8 @@ public class AnswerRepository extends BaseRepository {
 	
 	@Transactional
 	public Answer save(Answer entity) {
-		getSession().save(entity);
-		
-		return entity;
+		Answer createdAnswer = (Answer) super.save(entity);
+		return createdAnswer;
 	}
 
 	public <S extends Answer> Iterable<S> save(Iterable<S> entities) {

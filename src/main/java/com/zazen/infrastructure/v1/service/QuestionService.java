@@ -2,9 +2,11 @@ package com.zazen.infrastructure.v1.service;
 
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import com.zazen.infrastructure.v1.pojos.Message;
 import com.zazen.infrastructure.v1.pojos.Notification;
 import com.zazen.infrastructure.v1.pojos.Question;
 import com.zazen.infrastructure.v1.pojos.User;
+import com.zazen.infrastructure.v1.repository.UserRepository;
 import com.zazen.infrastructure.v1.vo.QuestionRequestVO;
 
 
@@ -25,7 +28,9 @@ public class QuestionService {
 
 	Logger log= LoggerFactory.getLogger(QuestionService.class);
 
-
+	@Autowired
+	UserRepository userRepository;
+	
 	@Autowired
 	private FcmService fcmService;
 	
@@ -39,7 +44,12 @@ public class QuestionService {
 		//#TODO gets the list of lat and long around the question 
 		// based on the above list, gets the users
 		// once the users are returned, use fcm service to send the question to it.
-		return null;
+		BigDecimal latitude = new BigDecimal(212.221210).setScale(6, BigDecimal.ROUND_HALF_UP);
+		BigDecimal longitude = new BigDecimal(-23.123000).setScale(6, BigDecimal.ROUND_HALF_UP);
+		String latitudeToSearch = question.getLatitude().split("\\.")[0];
+		String longitudeToSearch = question.getLongitude().split("\\.")[0];
+		List<User> user = userRepository.findUserByLocation(latitudeToSearch, longitudeToSearch);
+		return user;
 	}
 	
 	public void sendMessage(Question question, List<User> users){
@@ -53,8 +63,13 @@ public class QuestionService {
 			message.setPriority(Priority.HIGH);
 			Notification note = new Notification();
 			note.setBody(question.getQuery());
-			note.setTitle(question.getLocationName() + " Review Update");
+			note.setTitle(question.getLocationName());
 			message.setNotification(note);
+			
+			JSONObject messageData = new JSONObject();
+			messageData.put("id", question.getId());
+			messageData.put("type", "question");
+			message.setData(messageData);
 			try {
 				String response = fcmService.sendFcmMessage(message);
 			} catch (ClientProtocolException e) {

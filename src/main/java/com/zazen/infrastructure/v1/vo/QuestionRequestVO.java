@@ -21,11 +21,11 @@ public class QuestionRequestVO {
 	
 	@JsonProperty("latitude")
 	@NotNull
-	private BigDecimal locationLatitue;
+	private String locationLatitue;
 	
 	@JsonProperty("longitude")
 	@NotNull
-	private BigDecimal locationLongitute;
+	private String locationLongitute;
 	
 	@JsonProperty("deviceId")
 	@NotNull
@@ -75,19 +75,19 @@ public class QuestionRequestVO {
 		this.query = query;
 	}
 
-	public BigDecimal getLocationLatitue() {
+	public String getLocationLatitue() {
 		return locationLatitue;
 	}
 
-	public void setLocationLatitue(BigDecimal locationLatitue) {
+	public void setLocationLatitue(String locationLatitue) {
 		this.locationLatitue = locationLatitue;
 	}
 
-	public BigDecimal getLocationLongitute() {
+	public String getLocationLongitute() {
 		return locationLongitute;
 	}
 
-	public void setLocationLongitute(BigDecimal locationLongitute) {
+	public void setLocationLongitute(String locationLongitute) {
 		this.locationLongitute = locationLongitute;
 	}
 

@@ -4,6 +4,7 @@ public class Notification {
 	
 	private String title;
 	private String body;
+	private String id;
 	
 	public String getTitle() {
 		return title;
@@ -17,6 +18,13 @@ public class Notification {
 	public void setBody(String body) {
 		this.body = body;
 	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 	
 	
 }

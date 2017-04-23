@@ -13,9 +13,11 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Component;
 
+import com.zazen.infrastructure.v1.repository.TimeStampedEntity;
+
 @Entity
 @Component
-public class Answer {
+public class Answer extends TimeStampedEntity{
 	
 	@Id
 	@GeneratedValue(generator = "uuid")
@@ -25,6 +27,10 @@ public class Answer {
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Question question;
+	
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private User user;
 	
 	@OneToOne(cascade = {CascadeType.ALL})
 	private Recommendation recommendation;
@@ -86,6 +92,16 @@ public class Answer {
 	public void setAnswerRecommendation(String answerRecommendation) {
 		this.answerRecommendation = answerRecommendation;
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	
 	
 	
 }

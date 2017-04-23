@@ -2,6 +2,8 @@ package com.zazen.infrastructure.v1.pojos;
 
 import java.util.Properties;
 
+import org.json.JSONObject;
+
 import com.zazen.infrastructure.configuration.enumeration.Priority;
 
 public class Message {
@@ -11,6 +13,8 @@ public class Message {
 	private String to;
 	
 	private Priority priority;
+	
+	private JSONObject data;
 
 	public Notification getNotification() {
 		return notification;
@@ -34,6 +38,14 @@ public class Message {
 
 	public void setPriority(Priority priority) {
 		this.priority = priority;
+	}
+
+	public JSONObject getData() {
+		return data;
+	}
+
+	public void setData(JSONObject data) {
+		this.data = data;
 	}
 	
 	

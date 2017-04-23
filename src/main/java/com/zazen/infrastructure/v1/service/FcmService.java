@@ -20,7 +20,7 @@ import com.zazen.infrastructure.v1.pojos.Message;
 public class FcmService {
 	
 	private static String FCM_URL = "https://fcm.googleapis.com/fcm/send";
-	private static String SERVER_KEY = "key=AAAALFsjD1Q:APA91bHONY85PMG3TmP9E754P6n-7jGvVoFQonKpAgrJiS5S_QcNeGBI7-FPRgIVR_uic3R5-XXmKiyuVm2Qd_5uDSQMdWRMFenxESerDHGPH1cWMD174OFrnPAa5qXTMIoSX0OPIABc";
+	private static String SERVER_KEY = "key=AAAAUKwzfEg:APA91bFdDv_xko4MyC-0HDZEm2au-hg2ypXCc2AekoU7yzqMZ3aHJsyvrjQKB-FjevRuZxzoCE12AuLouTLml_Ve20Xt0EnAeX5Dyp5-esYvcGckJQis0hyEyEIZ68ELZZrUe-HWNZiD";
 	
 	
 	public String sendFcmMessage(Message message) throws ClientProtocolException, IOException{
@@ -39,6 +39,7 @@ public class FcmService {
 		messageToSend.put("notification",  notification);
 		messageToSend.put("registration_ids", registerationIds);
 		messageToSend.put("priority", message.getPriority());
+		messageToSend.put("data", message.getData());
 		//messageToSend.put("content-available","1");
 
 		

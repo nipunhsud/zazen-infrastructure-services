@@ -35,24 +35,24 @@ import com.zazen.infrastructure.v1.vo.QuestionRequestVO;
 public class QuestionController {
 
 	Logger logger= LoggerFactory.getLogger(QuestionController.class);
-	
+
 	@Autowired
 	private QuestionService questionService;
-	
+
 	@Autowired
 	private QuestionRepository  questionRespository;
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private FcmService fcmService;
-	
 
-//	@Autowired
-//	private Client elasticClient;
-	
-	
+
+	//	@Autowired
+	//	private Client elasticClient;
+
+
 	@RequestMapping(value = "/question", method = RequestMethod.POST, headers = "Accept=application/json")
 	@ResponseBody 
 	public Question postQuestion( @RequestBody QuestionRequestVO questionRequest){
@@ -61,31 +61,35 @@ public class QuestionController {
 		Question question = questionRequest.mapToQuestion(questionRequest);
 		question.setUser(user);
 		logger.debug("Saved");
-		
+
 		//#TODO Notes for Elastic search
 		// Create indexes for lat and long.
 		// Need to do a geo location search and find the lat and long that around within a certain radius
 		// Using that lat and long, find users and their registration id
 		//Use fcm service to send question to the listed users.
-		
+
 		// Comment this part on your machine till i complete the testing.
-//		IndexResponse indexResponse=elasticClient.prepareIndex("questions", "question").setSource(putJsonDocument(questionRequest.getQuery(),
-//				questionRequest.getDeviceId(),questionRequest.getLocationLatitue(),
-//				questionRequest.getLocationLongitute())).get();
-//		
-//		elasticClient.close();
-		
+		//		IndexResponse indexResponse=elasticClient.prepareIndex("questions", "question").setSource(putJsonDocument(questionRequest.getQuery(),
+		//				questionRequest.getDeviceId(),questionRequest.getLocationLatitue(),
+		//				questionRequest.getLocationLongitute())).get();
+		//		
+		//		elasticClient.close();
+
 		//#TODO use a cron job to run and get users around the location of the question asked
 		// From those users find the registration Id and using fcm service send notifications to them 
 		// Maybe need a status enum?
-		
-		//List<User> usersAroundLocation = questionService.getUsersAroundQuestion(question);
-		//Send question to these users using fcm service
+
+		List<User> usersAroundLocation = questionService.getUsersAroundQuestion(question);
+
 		Question createdQuestion = questionRespository.save(question);
-		//questionService.sendMessage(createdQuestion, usersAroundLocation);
+		//Send question to these users using fcm service
+		if(usersAroundLocation != null){
+			questionService.sendMessage(createdQuestion, usersAroundLocation);	
+		}
+		//this.sendMessage(question.getQuery());
 		return createdQuestion;
 	}
-	
+
 	@RequestMapping(value="/{id}" , method = RequestMethod.GET)
 	@ResponseBody
 	public Question getQuestionById( @PathVariable("id") String questionId){
@@ -93,58 +97,58 @@ public class QuestionController {
 		System.out.println(question.toString());
 		return question;
 	}
-	
+
 	@RequestMapping(value="/" , method = RequestMethod.GET)
 	public List<Question> getQuestions(){
-		
+
 		List<Question> allQuestions = (List<Question>) questionRespository.findAll();
 		return allQuestions;
-		
+
 	}
-	
+
 	@RequestMapping(value="/{id}" , method = RequestMethod.DELETE)
 	public void deleteQuestion(@PathVariable("id") long questionId){
-		
+
 		questionRespository.delete(questionId);
 	}
-	
+
 	@RequestMapping(value="/user/{id}" , method = RequestMethod.GET)
 	@ResponseBody
 	public List<Question> listQuestionsByUser(@PathVariable("id") String userId){
 		List<Question> questionList = questionRespository.findAllByUser(userId);
 		return questionList;		
 	}
-	
+
 	@RequestMapping(value="/latitude/{lat}/longitude/{long}" , method = RequestMethod.GET)
 	@ResponseBody
 	public List<Question> listQuestionsByLocation(@PathVariable("lat") Long longitude,@PathVariable("long") Long latitude){
 		List<Question> questions = questionRespository.findAllByLocation(longitude, latitude);
 		return questions;		
 	}
-	
-//	public void sendMessage(String query){
-//		Message message = new Message();
-//		//phone id - "fXaM6Dic1nI:APA91bE7-bxvj4JVgj4cBK9GG2QKr8fsYG6tVAWm9jskO7R6tzWSGHODOGLhj2YkMoIa0tHKQ1HqUn10zDhyqCaMckuuQWWO0bAtZDijUE0Q-RsU7GAhayNuAAU54IRmo1Z01Bi8gzwA"
-//		message.setTo("e_4bc0aoIdg:APA91bH6aoxf_Rkte6B6Zd0hI9EpIH9_0DTyDrfl36vuLz1odo_-BqKwMfqcIBOemmRBqY6vyDjSWksUrmhY1L6Nmgc7t1cq0Bxa5ARIPWrb-UK0uAVyB0ncvktklzg0tg1Fb6CW9o-e");
-//		//TODO think about how to prioritize 
-//		//message.setPriority(Priority.HIGH);
-//		Notification note = new Notification();
-//		note.setBody(query);
-//		note.setTitle("Test Me");
-//		message.setNotification(note);
-//		try {
-//			fcmService.sendFcmMessage(message);
-//		} catch (ClientProtocolException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		//message/
-//	}
-//	
-	
+
+	public void sendMessage(String query){
+		Message message = new Message();
+		//phone id - "fXaM6Dic1nI:APA91bE7-bxvj4JVgj4cBK9GG2QKr8fsYG6tVAWm9jskO7R6tzWSGHODOGLhj2YkMoIa0tHKQ1HqUn10zDhyqCaMckuuQWWO0bAtZDijUE0Q-RsU7GAhayNuAAU54IRmo1Z01Bi8gzwA"
+		message.setTo("f1y5sPexfCA:APA91bHDmkciFE9aO76BSpANJ3gZ_phyEiKqoXWocPkBnAVWORV-hjEHWbY9uMR4Jn-nbYTyfDgndAQ2MPE46Z3TlKok1eKeUNCuzNcmvHIm-yvO5VfhFFy1scyZHK2pj-mglzNEgk33");
+		//TODO think about how to prioritize 
+		//message.setPriority(Priority.HIGH);
+		Notification note = new Notification();
+		note.setBody(query);
+		note.setTitle("1234566");
+		message.setNotification(note);
+		try {
+			fcmService.sendFcmMessage(message);
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//message/
+	}
+	//	
+
 	private static Map<String, Object> putJsonDocument(String question,String deviceId,long lat,long lon){
 		Map<String, Object> jsonDocument = new HashMap<String, Object>();
 		jsonDocument.put("question", question);
@@ -154,6 +158,6 @@ public class QuestionController {
 		mapLocation.put("lon", lon);
 		jsonDocument.put("location", mapLocation);
 		return jsonDocument;
-		}
-	
+	}
+
 }

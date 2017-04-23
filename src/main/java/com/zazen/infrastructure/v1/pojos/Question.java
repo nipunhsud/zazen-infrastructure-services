@@ -30,11 +30,11 @@ public class Question extends TimeStampedEntity {
 	private String locationName;
 	
 	//TODO Eventually move this into Location table?
-	@Column(precision=10, scale=6)
-	private BigDecimal latitude;
+	//@Column(precision=15, scale=13)
+	private String latitude;
 	
-	@Column(precision=10, scale=6)
-	private BigDecimal longitude;
+	//@Column(precision=15, scale=13)
+	private String longitude;
 	
 //	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd")
 //	private Date createdDate;
@@ -49,7 +49,7 @@ public class Question extends TimeStampedEntity {
 	
 	public Question(){}
 	
-	public Question(String query, String locationName, BigDecimal latitude, BigDecimal longitude, Date createdDate, Date lastModified){//, , Date lastModified){
+	public Question(String query, String locationName, String latitude, String longitude, Date createdDate, Date lastModified){//, , Date lastModified){
 		
 		this.query = query;
 		this.locationName = locationName;
@@ -76,11 +76,11 @@ public class Question extends TimeStampedEntity {
 		this.locationName = locationName;
 	}
 	
-	public BigDecimal getLatitude() {
+	public String getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(BigDecimal latitude) {
+	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
 
@@ -110,11 +110,11 @@ public class Question extends TimeStampedEntity {
 		this.query = query;
 	}
 
-	public BigDecimal getLongitude() {
+	public String getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(BigDecimal longitude) {
+	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
 

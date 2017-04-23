@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Component;
@@ -21,20 +22,21 @@ public class Location extends TimeStampedEntity {
 	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
 	private String id;
 	
+	//@OneToOne
 	private String userId;
 	
-	@Column(precision=10, scale=6)
-	private BigDecimal latitude;
+	//@Column(precision=15, scale=13)
+	private String latitude;
 	
-	@Column(precision=10, scale=6)
-	private BigDecimal longitutde;
+	//@Column(precision=15, scale=13)
+	private String longitude;
 	
 	private Location(){}
 	
-	private Location(String userId, BigDecimal latitude, BigDecimal longitude){
+	private Location(String userId, String latitude, String longitude){
 		this.userId = userId;
 		this.latitude = latitude;
-		this.longitutde = longitude;
+		this.longitude = longitude;
 	}
 	
 	public String getId() {
@@ -53,19 +55,19 @@ public class Location extends TimeStampedEntity {
 		this.userId = userId;
 	}
 
-	public BigDecimal getLatitude() {
+	public String getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(BigDecimal latitude) {
+	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
 
-	public BigDecimal getLongitutde() {
-		return longitutde;
+	public String getLongitude() {
+		return longitude;
 	}
 
-	public void setLongitutde(BigDecimal longitutde) {
-		this.longitutde = longitutde;
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
 	}
 }

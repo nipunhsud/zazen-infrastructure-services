@@ -5,8 +5,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,13 +13,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.zazen.infrastructure.v1.pojos.Answer;
 import com.zazen.infrastructure.v1.pojos.Question;
 import com.zazen.infrastructure.v1.pojos.Recommendation;
+import com.zazen.infrastructure.v1.pojos.User;
 import com.zazen.infrastructure.v1.repository.AnswerRepository;
 import com.zazen.infrastructure.v1.repository.QuestionRepository;
+import com.zazen.infrastructure.v1.repository.UserRepository;
 import com.zazen.infrastructure.v1.service.AnswerService;
+import com.zazen.infrastructure.v1.service.QuestionService;
 import com.zazen.infrastructure.v1.vo.AnswerRequestVO;
 
 @Controller
@@ -45,16 +45,25 @@ Logger log= LoggerFactory.getLogger(AnswerController.class);
 	@Autowired
 	private Recommendation recommendation;
 	
+	@Autowired
+	private UserRepository userRepository;
+	
 	@RequestMapping(value = "/answer", method = RequestMethod.POST, headers = "Accept=application/json")
 	@ResponseBody 
 	public Answer answerPost( @RequestBody AnswerRequestVO answerRequest) throws Exception{
 		
-		Question question = questionRepository.findOne(answerRequest.getQuestion());
+		Question question = questionRepository.findOne(answerRequest.getQuestionId());
+		User user = userRepository.findOne(answerRequest.getUserId());
+		
 		answer.setQuestion(question);
 		answer.setAnswerRecommendation(answerRequest.getAnswer());
+		answer.setUser(user);
 		recommendation.setDescription(answerRequest.getAnswer());
 		answer.setRecommendation(recommendation);
 		Answer savedAnswer = answerRespository.save(answer);
+		
+		//Send notification to user associated to the question.
+		answerService.sendMessage(savedAnswer, question.getUser());
 		return savedAnswer;
 	}
 	

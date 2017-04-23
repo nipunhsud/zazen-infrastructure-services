@@ -41,7 +41,7 @@ Logger logger= LoggerFactory.getLogger(LocationController.class);
 			return location;
 		}else{
 			existingLocation.setLatitude(location.getLatitude());
-			existingLocation.setLongitutde(location.getLongitutde());
+			existingLocation.setLongitude(location.getLongitude());
 			locationRepository.update(existingLocation);
 			return existingLocation;
 		}
