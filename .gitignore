@@ -53,6 +53,6 @@ target/
 .component
 .classpath
 bin/
-/classes/*
+/**/classes/*
 .settings
 *.jar
