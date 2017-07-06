@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.client.ClientProtocolException;
-import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.client.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zazen.infrastructure.configuration.enumeration.Priority;
 import com.zazen.infrastructure.v1.pojos.Message;
 import com.zazen.infrastructure.v1.pojos.Notification;
 import com.zazen.infrastructure.v1.pojos.Question;
@@ -27,6 +24,7 @@ import com.zazen.infrastructure.v1.repository.QuestionRepository;
 import com.zazen.infrastructure.v1.repository.UserRepository;
 import com.zazen.infrastructure.v1.service.FcmService;
 import com.zazen.infrastructure.v1.service.QuestionService;
+import com.zazen.infrastructure.v1.service.SearchService;
 import com.zazen.infrastructure.v1.vo.QuestionRequestVO;
 
 
@@ -47,7 +45,9 @@ public class QuestionController {
 
 	@Autowired
 	private FcmService fcmService;
-
+	
+	@Autowired
+	private SearchService searchService;
 
 	//	@Autowired
 	//	private Client elasticClient;
@@ -60,14 +60,14 @@ public class QuestionController {
 		User user = userRepository.findOne(questionRequest.getUserId());
 		Question question = questionRequest.mapToQuestion(questionRequest);
 		question.setUser(user);
-		logger.debug("Saved");
-
+		logger.info("Saved");
+		
 		//#TODO Notes for Elastic search
 		// Create indexes for lat and long.
 		// Need to do a geo location search and find the lat and long that around within a certain radius
 		// Using that lat and long, find users and their registration id
 		//Use fcm service to send question to the listed users.
-
+		
 		// Comment this part on your machine till i complete the testing.
 		//		IndexResponse indexResponse=elasticClient.prepareIndex("questions", "question").setSource(putJsonDocument(questionRequest.getQuery(),
 		//				questionRequest.getDeviceId(),questionRequest.getLocationLatitue(),
@@ -79,9 +79,12 @@ public class QuestionController {
 		// From those users find the registration Id and using fcm service send notifications to them 
 		// Maybe need a status enum?
 
-		List<User> usersAroundLocation = questionService.getUsersAroundQuestion(question);
+		//List<User> usersAroundLocation = questionService.getUsersAroundQuestion(question);
 
 		Question createdQuestion = questionRespository.save(question);
+		//this would use search service to search and return users around the question
+		//searchService.indexQuestion(createdQuestion);
+		List<User> usersAroundLocation = searchService.searchUsersbyLocation(createdQuestion.getLatitude(), createdQuestion.getLongitude());
 		//Send question to these users using fcm service
 		if(usersAroundLocation != null){
 			questionService.sendMessage(createdQuestion, usersAroundLocation);	
@@ -95,6 +98,7 @@ public class QuestionController {
 	public Question getQuestionById( @PathVariable("id") String questionId){
 		Question question = questionRespository.findOne(questionId);
 		System.out.println(question.toString());
+		
 		return question;
 	}
 

@@ -26,8 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan(basePackages="com.zazen.infrastructure")
-@PropertySource(value={"file://yuvo/conf/application.properties"})
-//"classpath:application.properties"})
+@PropertySource("classpath:application.properties")
 
 public class InfrastructureServiceWebApplicationConfiguration extends WebMvcConfigurerAdapter{
 
@@ -42,7 +41,7 @@ public class InfrastructureServiceWebApplicationConfiguration extends WebMvcConf
 		dataSource.setUrl(environment.getRequiredProperty("RDS_HOSTNAME"));
 		dataSource.setUsername(environment.getRequiredProperty("RDS_USERNAME"));
 		dataSource.setPassword(environment.getRequiredProperty("RDS_PASSWORD"));
-		dataSource.getConnection();
+		//dataSource.getConnection();
 		return dataSource;
 	}
 

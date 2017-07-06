@@ -19,6 +19,7 @@ import com.zazen.infrastructure.v1.repository.LocationRepository;
 import com.zazen.infrastructure.v1.repository.QuestionRepository;
 import com.zazen.infrastructure.v1.repository.UserRepository;
 import com.zazen.infrastructure.v1.service.QuestionService;
+import com.zazen.infrastructure.v1.service.SearchService;
 
 @Controller
 @RequestMapping("locations")
@@ -31,21 +32,22 @@ Logger logger= LoggerFactory.getLogger(LocationController.class);
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Autowired
+	private SearchService searchService;
 	
 	@RequestMapping(value = "/location", method = RequestMethod.PUT, headers = "Accept=application/json")
 	@ResponseBody 
 	public Location postLocation( @RequestBody Location location){
 		Location existingLocation = locationRepository.findByUserId(location.getUserId());
 		if(existingLocation == null){
-			locationRepository.save(location);
-			return location;
+			existingLocation = locationRepository.save(location);
 		}else{
 			existingLocation.setLatitude(location.getLatitude());
 			existingLocation.setLongitude(location.getLongitude());
 			locationRepository.update(existingLocation);
-			return existingLocation;
 		}
-		
+		searchService.indexUserLocation(existingLocation);
+		return existingLocation;
 	}
 	
 	@RequestMapping(value="/{id}" , method = RequestMethod.GET)

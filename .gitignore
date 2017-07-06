@@ -47,12 +47,10 @@ Temporary Items
 .apdisk
 target/
 *.class
-*.properties
 .class
 .project
 .component
 .classpath
 bin/
-/**/classes/*
 .settings
 *.jar

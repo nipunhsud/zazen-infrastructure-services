@@ -88,7 +88,7 @@ Logger log= LoggerFactory.getLogger(AnswerController.class);
 	
 	@RequestMapping(value="/question/{id}" , method = RequestMethod.GET)
 	@ResponseBody
-	public List<Answer> listAnswersByUser(@RequestParam String questionId){
+	public List<Answer> listAnswersByQuestion(@RequestParam String questionId){
 		List<Answer> answers = answerRespository.findAllByQuestion(questionId);
 		return answers;		
 	}
