@@ -1,33 +1,27 @@
 package com.zazen.infrastructure.v1.elasticsearch.search.response;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Shard {
 	private int total;
-	@JsonProperty("max_score")
-	private int maxScore;
-	private List<Hits> hits;
-	
+    private int successful;
+    private int failed;
 	public int getTotal() {
 		return total;
 	}
 	public void setTotal(int total) {
 		this.total = total;
 	}
-	public int getMaxScore() {
-		return maxScore;
+	public int getSuccessful() {
+		return successful;
 	}
-	public void setMaxScore(int maxScore) {
-		this.maxScore = maxScore;
+	public void setSuccessful(int successful) {
+		this.successful = successful;
 	}
-	public List<Hits> getHits() {
-		return hits;
+	public int getFailed() {
+		return failed;
 	}
-	public void setHits(List<Hits> hits) {
-		this.hits = hits;
+	public void setFailed(int failed) {
+		this.failed = failed;
 	}
-	
-	
+    
+    
 }

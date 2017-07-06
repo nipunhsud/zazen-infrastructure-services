@@ -4,6 +4,8 @@ public class GeoPoint {
 	private String lat;
 	private String lon;
 	
+	public GeoPoint(){}
+	
 	public GeoPoint(String lat, String lon){
 		this.lat = lat;
 		this.lon = lon;

@@ -1,6 +1,7 @@
 package com.zazen.infrastructure.v1.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -8,11 +9,13 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
+import org.apache.http.util.EntityUtils;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,14 +26,20 @@ import com.zazen.infrastructure.v1.elasticsearch.search.request.GeoDistance;
 import com.zazen.infrastructure.v1.elasticsearch.search.request.GeoPoint;
 import com.zazen.infrastructure.v1.elasticsearch.search.request.Query;
 import com.zazen.infrastructure.v1.elasticsearch.search.request.Search;
+import com.zazen.infrastructure.v1.elasticsearch.search.response.Hits;
+import com.zazen.infrastructure.v1.elasticsearch.search.response.ResponseSource;
 import com.zazen.infrastructure.v1.pojos.Location;
 import com.zazen.infrastructure.v1.pojos.Question;
 import com.zazen.infrastructure.v1.pojos.User;
+import com.zazen.infrastructure.v1.repository.UserRepository;
 
 @Service
 public class SearchService {
 
 	Logger logger = LoggerFactory.getLogger(SearchService.class);
+	
+	@Autowired
+	UserRepository userRepository;
 
 	RestClient restClient = null;
 
@@ -123,7 +132,7 @@ public class SearchService {
 		// .put("lat", location.getLatitude())
 		// .put("lon", location.getLongitude())
 		// ).toString();
-
+		List<User> userIdList = null;
 		ObjectMapper mapper = new ObjectMapper();
 		String searchDistance = "1km";
 		GeoPoint geoPoint = new GeoPoint(latitude, longitude);
@@ -141,6 +150,17 @@ public class SearchService {
 			Response indexResponse = restClient.performRequest("GET",
 					userByLocationSearchEndpoint,
 					Collections.<String, String> emptyMap(), entity);
+			HttpEntity entityw = indexResponse.getEntity();
+			String responseString = EntityUtils.toString(entityw, "UTF-8");
+			System.out.println(responseString);
+			ResponseSource response = mapper.readValue(responseString, ResponseSource.class);
+			List<Hits> hitsList = response.getHits().getHits();
+			userIdList = new ArrayList<User>();
+			for(Hits hits: hitsList){
+				User user = userRepository.findOne(hits.getSource().getUserId());
+				userIdList.add(user);
+			}
+			logger.debug("response "+ response);
 		} catch (JsonProcessingException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -149,7 +169,7 @@ public class SearchService {
 			e.printStackTrace();
 		}
 
-		return null;
+		return userIdList;
 	}
 
 	public void closeRestClient() {
