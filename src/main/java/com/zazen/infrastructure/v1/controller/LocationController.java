@@ -1,5 +1,6 @@
 package com.zazen.infrastructure.v1.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,13 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.PlacesSearchResponse;
+import com.zazen.infrastructure.google.autocomplete.PlacesAutocompleteServices;
 import com.zazen.infrastructure.v1.pojos.Location;
-import com.zazen.infrastructure.v1.pojos.Question;
-import com.zazen.infrastructure.v1.pojos.User;
 import com.zazen.infrastructure.v1.repository.LocationRepository;
-import com.zazen.infrastructure.v1.repository.QuestionRepository;
 import com.zazen.infrastructure.v1.repository.UserRepository;
-import com.zazen.infrastructure.v1.service.QuestionService;
 import com.zazen.infrastructure.v1.service.SearchService;
 
 @Controller
@@ -34,6 +34,9 @@ Logger logger= LoggerFactory.getLogger(LocationController.class);
 	
 	@Autowired
 	private SearchService searchService;
+	
+	@Autowired
+	PlacesAutocompleteServices placesAutocompleteServices;
 	
 	@RequestMapping(value = "/location", method = RequestMethod.PUT, headers = "Accept=application/json")
 	@ResponseBody 
@@ -64,5 +67,12 @@ Logger logger= LoggerFactory.getLogger(LocationController.class);
 		return allLocations;
 		
 	}
+	
+	@RequestMapping(value="/location" , method = RequestMethod.GET, headers = "Accept=application/json")
+	@ResponseBody
+	public PlacesSearchResponse getGooglePlaces() throws ApiException, InterruptedException, IOException{
+		return placesAutocompleteServices.getPlacesResult("6 Canal Park");
+	}
+	
 	
 }

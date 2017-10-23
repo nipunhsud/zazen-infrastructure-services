@@ -21,6 +21,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zazen.infrastructure.google.autocomplete.PlacesAutocompleteServices;
 
 @Configuration
 @EnableWebMvc
@@ -87,7 +88,12 @@ public class InfrastructureServiceWebApplicationConfiguration extends WebMvcConf
 		return sessionFactory;
 	}
 
-
+	
+	 @Bean 
+	   public PlacesAutocompleteServices placesAutocompleteServices(){
+	      return new PlacesAutocompleteServices();
+	   }
+	 
 	//	@Bean
 	//	public Client elasticClient(){
 	//		Settings setting=Settings.builder().put("cluster.name",
