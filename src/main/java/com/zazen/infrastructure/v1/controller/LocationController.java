@@ -35,8 +35,6 @@ Logger logger= LoggerFactory.getLogger(LocationController.class);
 	@Autowired
 	private SearchService searchService;
 	
-	@Autowired
-	PlacesAutocompleteServices placesAutocompleteServices;
 	
 	@RequestMapping(value = "/location", method = RequestMethod.PUT, headers = "Accept=application/json")
 	@ResponseBody 
@@ -68,11 +66,7 @@ Logger logger= LoggerFactory.getLogger(LocationController.class);
 		
 	}
 	
-	@RequestMapping(value="/location" , method = RequestMethod.GET, headers = "Accept=application/json")
-	@ResponseBody
-	public PlacesSearchResponse getGooglePlaces() throws ApiException, InterruptedException, IOException{
-		return placesAutocompleteServices.getPlacesResult("6 Canal Park");
-	}
+	
 	
 	
 }
