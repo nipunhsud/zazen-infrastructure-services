@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ import com.zazen.infrastructure.v1.vo.AnswerRequestVO;
 
 @Controller
 @RequestMapping("answers")
+@CrossOrigin(origins = "*",maxAge = 3600)
 public class AnswerController {
 	
 Logger log= LoggerFactory.getLogger(AnswerController.class);
@@ -62,17 +64,18 @@ Logger log= LoggerFactory.getLogger(AnswerController.class);
 		answer.setRecommendation(recommendation);
 		Answer savedAnswer = answerRespository.save(answer);
 		
+		User userAssociatedToQuestion = userRepository.findOne(question.getUserId());
 		//Send notification to user associated to the question.
-		answerService.sendMessage(savedAnswer, question.getUser());
+		answerService.sendMessage(savedAnswer, userAssociatedToQuestion);
 		return savedAnswer;
 	}
 	
-	@RequestMapping(value="/answers/{id}" , method = RequestMethod.GET)
-	public Answer getQuestionById( @PathVariable("answerId") String answerId){
+	@RequestMapping(value="/{id}" , method = RequestMethod.GET)
+	public Answer getAnswerById( @PathVariable("answerId") String answerId){
 		return answerRespository.findOne(answerId);
 	}
 	
-	@RequestMapping(value="/answers" , method = RequestMethod.GET)
+	@RequestMapping(value="/" , method = RequestMethod.GET)
 	public List<Answer> getAllAnswers(){
 		
 		List<Answer> allAnswers = answerRespository.findAll();
@@ -80,15 +83,15 @@ Logger log= LoggerFactory.getLogger(AnswerController.class);
 		
 	}
 	
-	@RequestMapping(value="/answers/{id}" , method = RequestMethod.DELETE)
-	public void deleteQuestion(@RequestParam long answerId){
+	@RequestMapping(value="/{id}" , method = RequestMethod.DELETE)
+	public void deleteAnswer(@RequestParam long answerId){
 		
 		answerRespository.delete(answerId);
 	}
 	
-	@RequestMapping(value="/question/{id}" , method = RequestMethod.GET)
+	@RequestMapping(value="/question/{questionId}" , method = RequestMethod.GET)
 	@ResponseBody
-	public List<Answer> listAnswersByQuestion(@RequestParam String questionId){
+	public List<Answer> listAnswersByQuestion(@PathVariable("questionId") String questionId){
 		List<Answer> answers = answerRespository.findAllByQuestion(questionId);
 		return answers;		
 	}

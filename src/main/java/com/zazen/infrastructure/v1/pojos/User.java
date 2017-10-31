@@ -14,8 +14,8 @@ import com.zazen.infrastructure.v1.repository.TimeStampedEntity;
 public class User extends TimeStampedEntity{
 	
 	@Id
-//	@GeneratedValue(generator = "uuid")
-//	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
 	private String id;
 	
 	private String username;

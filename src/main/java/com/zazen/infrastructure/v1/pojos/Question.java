@@ -36,16 +36,7 @@ public class Question extends TimeStampedEntity {
 	//@Column(precision=15, scale=13)
 	private String longitude;
 	
-//	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd")
-//	private Date createdDate;
-	
-//	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd")
-//	private Date lastModified;
-	
-	@ManyToOne
-	@JoinColumn(nullable = false)
-	@JsonIgnore
-	private User user;
+	private String userId;
 	
 	public Question(){}
 	
@@ -55,8 +46,6 @@ public class Question extends TimeStampedEntity {
 		this.locationName = locationName;
 		this.latitude = latitude;
 		this.longitude = longitude;
-//		this.createdDate = createdDate;
-//		this.lastModified = lastModified;
 		
 	}
 	
@@ -83,25 +72,7 @@ public class Question extends TimeStampedEntity {
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
-
-//	public Date getCreatedDate() {
-//		return createdDate;
-//	}
-//
-//	public  void setCreatedDate(Date createdDate) {
-//		this.createdDate = createdDate;
-//	}
-
-//	public User getUser() {
-//		return user;
-//	}
-//
-//	public void setUser(User user) {
-//		this.user = user;
-//	}
-//	
-//	
-
+	
 	public String getQuery() {
 		return query;
 	}
@@ -118,19 +89,12 @@ public class Question extends TimeStampedEntity {
 		this.longitude = longitude;
 	}
 
-//	public Date getLastModified() {
-//		return lastModified;
-//	}
-//
-//	public void setLastModified(Date lastModified) {
-//		this.lastModified = lastModified;
-//	}
-
-	public User getUser() {
-		return user;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
+	
 }

@@ -9,6 +9,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,11 +26,11 @@ import com.zazen.infrastructure.v1.repository.UserRepository;
 import com.zazen.infrastructure.v1.service.FcmService;
 import com.zazen.infrastructure.v1.service.QuestionService;
 import com.zazen.infrastructure.v1.service.SearchService;
-import com.zazen.infrastructure.v1.vo.QuestionRequestVO;
 
 
 @RestController
 @RequestMapping("questions")
+@CrossOrigin(origins = "*",maxAge = 3600)
 public class QuestionController {
 
 	Logger logger= LoggerFactory.getLogger(QuestionController.class);
@@ -55,12 +56,8 @@ public class QuestionController {
 
 	@RequestMapping(value = "/question", method = RequestMethod.POST, headers = "Accept=application/json")
 	@ResponseBody 
-	public Question postQuestion( @RequestBody QuestionRequestVO questionRequest){
-		logger.info(questionRequest.toString());
-		User user = userRepository.findOne(questionRequest.getUserId());
-		Question question = questionRequest.mapToQuestion(questionRequest);
-		question.setUser(user);
-		logger.info("Saved");
+	public Question postQuestion( @RequestBody Question question){
+		logger.info(question.toString());
 		
 		//#TODO Notes for Elastic search
 		// Create indexes for lat and long.

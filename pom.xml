@@ -203,6 +203,7 @@
 				<jsonLibrary>jackson2</jsonLibrary>
 				<classes>
 					<class>com.zazen.infrastructure.v1.pojos.Answer</class>
+					<class>com.zazen.infrastructure.v1.vo.AnswerRequestVO</class>
 					<class>com.google.maps.model.AutocompletePrediction</class>
 				</classes>
 				<outputKind>module</outputKind>

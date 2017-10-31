@@ -25,6 +25,7 @@ public class UserController {
 	
 	@RequestMapping(value ="/user", method = RequestMethod.PUT, headers = "Accept=application/json" )
 	public User saveUser(@RequestBody User userRequest){
+		// Need to start indexing users on elastic search here
 		User user = userRepository.save(userRequest);
 		return user;
 	}

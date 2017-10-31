@@ -67,7 +67,7 @@ public class SearchService {
 		String jsonString = new JSONObject()
 		.put("query", question.getQuery())
 		.put("locationName", question.getLocationName())
-		.put("userId", question.getUser().getId())
+		.put("userId", question.getUserId())
 		.put("geoPoint",
 				new JSONObject().put("lat", question.getLatitude())
 				.put("lon", question.getLongitude()))
