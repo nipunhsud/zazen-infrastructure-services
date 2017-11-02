@@ -58,6 +58,14 @@ public class AnswerRepository extends BaseRepository {
 		.setParameter("questionId", questionId);
 		return query.list() ;
 	}
+	
+	public List<Answer> findAllByUser(String userId) {
+		@SuppressWarnings("rawtypes")
+		Query query = getSession().createQuery("FROM " + Answer.class.getName()
+				+ " where user_id IN (:userId)")
+		.setParameter("userId", userId);
+		return query.list() ;
+	}
 
 	public long count() {
 		// TODO Auto-generated method stub

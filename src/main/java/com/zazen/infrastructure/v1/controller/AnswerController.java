@@ -95,4 +95,11 @@ Logger log= LoggerFactory.getLogger(AnswerController.class);
 		List<Answer> answers = answerRespository.findAllByQuestion(questionId);
 		return answers;		
 	}
+	
+	@RequestMapping(value="/user/{userId}" , method = RequestMethod.GET)
+	@ResponseBody
+	public List<Answer> listAnswersByUser(@PathVariable("userId") String userId){
+		List<Answer> answers = answerRespository.findAllByUser(userId);
+		return answers;		
+	}
 }
